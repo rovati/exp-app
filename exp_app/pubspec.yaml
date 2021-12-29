@@ -1,4 +1,4 @@
-name: EXP
+name: exp
 description: An app to keep track of expenses.
 
 # The following line prevents the package from being accidentally published to
