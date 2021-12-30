@@ -1,4 +1,7 @@
+import 'package:exp/model/ExpenseEntry.dart';
+import 'package:exp/model/ExpenseList.dart';
 import 'package:exp/widget/InteractiveExpenseList.dart';
+import 'package:exp/widget/NewEntryDialog.dart';
 import 'package:flutter/material.dart';
 
 class ExpenseScreen extends StatefulWidget {
@@ -13,6 +16,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
         title: Text(widget.title),
@@ -24,118 +28,86 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.blue, Colors.blue.shade200]),
-                color: Colors.blue,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
-                ),
-              ),
-              child: Column(
-                children: [
-                  const Text(
-                    "TOTAL",
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                  const Text(
-                    "315.70",
-                    style: TextStyle(fontSize: 60, color: Colors.white),
-                  ),
-                  const Text(
-                    "194.10",
-                    style: TextStyle(fontSize: 35, color: Colors.white),
-                  ),
-                  const Text(
-                    "THIS MONTH",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: LinearProgressIndicator(
-                      value: 194.10 / 200,
-                      backgroundColor: Colors.white,
-                      color: Colors.green.shade200,
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.blue, Colors.blue.shade200]),
+                    color: Colors.blue,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.05,
-            ),
-            const Expanded(
-              child: InteractiveExpenseList(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ExpenseTile extends StatelessWidget {
-  const ExpenseTile({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.9,
-      decoration: BoxDecoration(
-        //gradient: color,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.blue),
-      ),
-      child: Row(
-        children: [
-          SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-          Expanded(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        "Migros uhlala",
-                        style: TextStyle(color: Colors.blue, fontSize: 20),
+                    children: [
+                      const Text(
+                        "TOTAL",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
-                      Text(
-                        "05.07.2021",
-                        style: TextStyle(color: Colors.blue, fontSize: 15),
+                      const Text(
+                        "315.70",
+                        style: TextStyle(fontSize: 60, color: Colors.white),
                       ),
+                      const Text(
+                        "194.10",
+                        style: TextStyle(fontSize: 35, color: Colors.white),
+                      ),
+                      const Text(
+                        "THIS MONTH",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: LinearProgressIndicator(
+                          value: 194.10 / 200,
+                          backgroundColor: Colors.white,
+                          color: Colors.green.shade200,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      )
                     ],
                   ),
                 ),
-                const Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    "58.80",
-                    style: TextStyle(color: Colors.blue, fontSize: 30),
+                GestureDetector(
+                  onTap: _onPressedOpenDialog,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'ADD NEW ENTRY',
+                      style: TextStyle(color: Colors.blue),
+                    ),
                   ),
+                ),
+                const Expanded(
+                  child: InteractiveExpenseList(),
                 ),
               ],
             ),
           ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+          /* const Center(
+            child: NewEntryDialog(),
+          ), */
         ],
       ),
     );
+  }
+
+  // TODO
+  void _onPressedOpenDialog() {
+    ExpenseList().add(ExpenseEntry('new', 0, DateTime.now()));
   }
 }
