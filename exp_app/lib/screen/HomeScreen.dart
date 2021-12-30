@@ -1,5 +1,6 @@
 import 'package:exp/screen/ExpenseScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -61,9 +62,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     "THIS MONTH",
                     style: TextStyle(color: Colors.white),
                   ),
-                  Text(
-                    "31.10 OVER BUDGET",
-                    style: TextStyle(color: Colors.red[300]),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: LinearProgressIndicator(
+                      value: 400 / 431.10,
+                      backgroundColor: Colors.red.shade200,
+                      color: Colors.green.shade200,
+                    ),
                   ),
                   const SizedBox(
                     height: 10,
@@ -71,16 +79,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            const TextButton(
-              onPressed: null,
-              child: Text(
-                "ADD MONTHLY BUDGET",
-                style: TextStyle(color: Colors.blue),
-              ),
-            ),
             Expanded(
               child: ListView(
                 children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                  ),
                   // first row
                   Row(
                     children: [
@@ -173,8 +177,9 @@ class ExpenseTile extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => const ExpenseScreen(
+          PageTransition(
+            type: PageTransitionType.fade,
+            child: const ExpenseScreen(
               title: 'GROCERIES',
             ),
           ),

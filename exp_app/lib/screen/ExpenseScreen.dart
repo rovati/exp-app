@@ -40,39 +40,46 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 ),
               ),
               child: Column(
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "TOTAL",
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
-                  Text(
+                  const Text(
                     "315.70",
                     style: TextStyle(fontSize: 60, color: Colors.white),
                   ),
-                  Text(
+                  const Text(
                     "194.10",
                     style: TextStyle(fontSize: 35, color: Colors.white),
                   ),
-                  Text(
+                  const Text(
                     "THIS MONTH",
                     style: TextStyle(color: Colors.white),
                   ),
-                  Text(
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: LinearProgressIndicator(
+                      value: 194.10 / 200,
+                      backgroundColor: Colors.white,
+                      color: Colors.green.shade200,
+                    ),
+                  ),
+                  /* Text(
                     "5.90 UNDER BUDGET",
                     style: TextStyle(fontSize: 12, color: Colors.white),
-                  ),
-                  SizedBox(
+                  ), */
+                  const SizedBox(
                     height: 10,
                   )
                 ],
               ),
             ),
-            const TextButton(
-              onPressed: null,
-              child: Text(
-                "ADD MONTHLY BUDGET",
-                style: TextStyle(color: Colors.blue),
-              ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.05,
             ),
             Expanded(
               child: ListView.builder(
