@@ -1,16 +1,32 @@
-# exp_app
+# EXP
 
-A new Flutter project.
+EXP is a simple productivity app for Android to keep track of expenses. The app will offer intuitive ways to manage amounts, set budgets, separate expenses in categories and have monthly summaries.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+Refer to the [board](https://github.com/rovati/exp-app/projects/1) for a complete insight on the development.
 
-A few resources to get you started if this is your first Flutter project:
+### Planned
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+The project has just kicked off, but many features are already planned for the following weeks:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Access a global summary of expense amounts and set a global monthly budget
+- Keep track of previous months summaries
+- Create and manage various categories for expenses
+- Access each category to have a local summary of amounts and budgets
+- Add expense entries specifying a name and a date in addition to the expense amount
+
+Moreover, one of the main goals of the app is to have a modern UI achieved through simple yet effective design principles.
+
+### Currently Under Development
+
+At the moment the development is focused purely on creating a rough design of the various pages.
+
+## License
+
+The app is realease under the [GNU General Public License v3.0](LICENSE).
+
+## Contributions
+
+Want to contirbute to the development of the app? Whether you want to share ideas, give comments or write code, hit [Rova](https://github.com/rovati) up to get involved! Your help is greatly appreciated!
+
