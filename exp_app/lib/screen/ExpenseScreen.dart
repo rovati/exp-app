@@ -1,3 +1,4 @@
+import 'package:exp/widget/InteractiveExpenseList.dart';
 import 'package:flutter/material.dart';
 
 class ExpenseScreen extends StatefulWidget {
@@ -68,10 +69,6 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                       color: Colors.green.shade200,
                     ),
                   ),
-                  /* Text(
-                    "5.90 UNDER BUDGET",
-                    style: TextStyle(fontSize: 12, color: Colors.white),
-                  ), */
                   const SizedBox(
                     height: 10,
                   )
@@ -81,20 +78,8 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.05,
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 7,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      const ExpenseTile(),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
-                      )
-                    ],
-                  );
-                },
-              ),
+            const Expanded(
+              child: InteractiveExpenseList(),
             ),
           ],
         ),
