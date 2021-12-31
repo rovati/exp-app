@@ -1,8 +1,11 @@
 import 'dart:ui';
 
+import 'package:exp/model/DateKey.dart';
+import 'package:exp/model/ExpenseList.dart';
 import 'package:exp/widget/InteractiveExpenseList.dart';
 import 'package:exp/widget/NewEntryDialog.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ExpenseScreen extends StatefulWidget {
   const ExpenseScreen({Key? key, required this.title}) : super(key: key);
@@ -70,13 +73,22 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                           "TOTAL",
                           style: TextStyle(fontSize: 20, color: Colors.white),
                         ),
-                        const Text(
-                          "315.70",
-                          style: TextStyle(fontSize: 60, color: Colors.white),
+                        Consumer<ExpenseList>(
+                          builder: (context, expenselist, child) => Text(
+                            expenselist.total.toStringAsFixed(2),
+                            style: const TextStyle(
+                                fontSize: 60, color: Colors.white),
+                          ),
                         ),
-                        const Text(
-                          "194.10",
-                          style: TextStyle(fontSize: 35, color: Colors.white),
+                        Consumer<ExpenseList>(
+                          builder: (context, expenselist, child) => Text(
+                            expenselist
+                                .totalFor(DateKey(
+                                    DateTime.now().year, DateTime.now().month))
+                                .toStringAsFixed(2),
+                            style: const TextStyle(
+                                fontSize: 35, color: Colors.white),
+                          ),
                         ),
                         const Text(
                           "THIS MONTH",

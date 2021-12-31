@@ -16,9 +16,9 @@ class _IntExpListState extends State<InteractiveExpenseList> {
   Widget build(BuildContext context) {
     return Consumer<ExpenseList>(
       builder: (context, expenselist, child) => ListView.builder(
-        itemCount: expenselist.entries.length,
+        itemCount: expenselist.allEntries.length,
         itemBuilder: (context, index) {
-          ExpenseEntry entry = expenselist.entries[index];
+          ExpenseEntry entry = expenselist.allEntries[index];
           return Column(
             children: [
               generateTile(entry),
