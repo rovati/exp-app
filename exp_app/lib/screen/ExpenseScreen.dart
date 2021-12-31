@@ -1,5 +1,3 @@
-import 'package:exp/model/ExpenseEntry.dart';
-import 'package:exp/model/ExpenseList.dart';
 import 'package:exp/widget/InteractiveExpenseList.dart';
 import 'package:exp/widget/NewEntryDialog.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +11,17 @@ class ExpenseScreen extends StatefulWidget {
 }
 
 class _ExpenseScreenState extends State<ExpenseScreen> {
+  final animation_duration = 200;
+  late double _dialogOpacity;
+  late bool _isDialogVisible;
+
+  @override
+  void initState() {
+    super.initState();
+    _dialogOpacity = 0.0;
+    _isDialogVisible = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,16 +107,74 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               ],
             ),
           ),
-          /* const Center(
-            child: NewEntryDialog(),
-          ), */
+          Visibility(
+            visible: _isDialogVisible,
+            child: AnimatedOpacity(
+              opacity: _dialogOpacity,
+              duration: Duration(milliseconds: animation_duration),
+              child: Center(
+                child: fullDialog(),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  // TODO
+  Widget fullDialog() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const NewEntryDialog(),
+        Container(
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: MediaQuery.of(context).size.height * 0.075,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+          ),
+          child: InkWell(
+            onTap: _onTapConfirmNewEntry,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Text(
+                  'CONFIRM',
+                  style: TextStyle(color: Colors.white, fontSize: 15),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   void _onPressedOpenDialog() {
-    ExpenseList().add(ExpenseEntry('new', 0, DateTime.now()));
+    setState(() {
+      _isDialogVisible = true;
+      _dialogOpacity = 1.0;
+    });
+  }
+
+  // TODO add entry to expense list
+  void _onTapConfirmNewEntry() {
+    setState(() {
+      _dialogOpacity = 0.0;
+    });
+    Future.delayed(Duration(milliseconds: animation_duration), () {
+      setState(() {
+        _isDialogVisible = false;
+      });
+    });
   }
 }
