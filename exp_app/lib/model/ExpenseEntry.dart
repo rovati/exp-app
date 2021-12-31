@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class ExpenseEntry {
   final String title;
   final double amount;
@@ -10,8 +12,11 @@ class ExpenseEntry {
         amount = json['amount'] as double,
         date = json['date'] as DateTime;
 
-  Map<String, dynamic> toJson() =>
-      {'title': title, 'amount': amount, 'date': date};
+  Map<String, dynamic> toJson() => {
+        'title': title,
+        'amount': amount,
+        'date': DateFormat('yyy-MM-dd').format(date)
+      };
 
   ExpenseEntry modifyTitle(String newTitle) {
     return ExpenseEntry(newTitle, amount, date);
