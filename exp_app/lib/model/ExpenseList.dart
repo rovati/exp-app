@@ -33,6 +33,13 @@ class ExpenseList extends ChangeNotifier {
       ],
       DateKey(2021, 11): [
         ExpenseEntry("migros", 44.90, DateTime(2021, 11, 30)),
+        ExpenseEntry("denner", 30.30, DateTime(2021, 11, 26)),
+        ExpenseEntry("takinoa", 8.40, DateTime(2021, 11, 28)),
+        ExpenseEntry("random", 7.10, DateTime(2021, 11, 19)),
+      ],
+      DateKey(2021, 10): [
+        ExpenseEntry("migros", 2.10, DateTime(2021, 10, 31)),
+        ExpenseEntry("bira", 11.90, DateTime(2021, 10, 31)),
       ],
     };
     sort();
