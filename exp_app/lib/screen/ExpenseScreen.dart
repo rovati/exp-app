@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:exp/widget/InteractiveExpenseList.dart';
 import 'package:exp/widget/NewEntryDialog.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      // TODO remove appbar for easier blur effect
       appBar: AppBar(
         elevation: 0,
         title: Text(widget.title),
@@ -107,13 +110,23 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               ],
             ),
           ),
-          Visibility(
-            visible: _isDialogVisible,
-            child: AnimatedOpacity(
-              opacity: _dialogOpacity,
-              duration: Duration(milliseconds: animation_duration),
-              child: Center(
-                child: fullDialog(),
+          AnimatedOpacity(
+            opacity: _dialogOpacity,
+            duration: Duration(milliseconds: animation_duration),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(
+                sigmaX: 8.0,
+                sigmaY: 8.0,
+              ),
+              child: Visibility(
+                visible: _isDialogVisible,
+                child: AnimatedOpacity(
+                  opacity: _dialogOpacity,
+                  duration: Duration(milliseconds: animation_duration ~/ 2),
+                  child: Center(
+                    child: fullDialog(),
+                  ),
+                ),
               ),
             ),
           ),
