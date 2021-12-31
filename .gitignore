@@ -1,0 +1,8 @@
+.dart_tool/*
+.packages
+exp_app/.dart_tool/*
+exp_app/.packages
+exp_app/analysis_options.yaml
+exp_app/build/*
+exp_app/ios/*
+exp_app/web/

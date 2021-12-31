@@ -14,153 +14,161 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(widget.title),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.edit),
+      body: Stack(
+        children: [
+          Container(
+            color: Colors.blue,
+            height: MediaQuery.of(context).size.height * 0.05, // REVIEW
           ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.dehaze),
-          ),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.blue, Colors.blue.shade200]),
-                color: Colors.blue,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
-                ),
-              ),
+          SafeArea(
+            child: Center(
               child: Column(
-                children: [
-                  const Text(
-                    "TOTAL",
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                  const Text(
-                    "923.70",
-                    style: TextStyle(fontSize: 60, color: Colors.white),
-                  ),
-                  const Text(
-                    "431.10",
-                    style: TextStyle(fontSize: 35, color: Colors.white),
-                  ),
-                  const Text(
-                    "THIS MONTH",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                children: <Widget>[
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: LinearProgressIndicator(
-                      value: 400 / 431.10,
-                      backgroundColor: Colors.red.shade200,
-                      color: Colors.green.shade200,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.blue, Colors.blue.shade200]),
+                      color: Colors.blue,
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        const Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            child: Text(
+                              'EXP',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                        const Text(
+                          "TOTAL",
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        const Text(
+                          "923.70",
+                          style: TextStyle(fontSize: 60, color: Colors.white),
+                        ),
+                        const Text(
+                          "431.10",
+                          style: TextStyle(fontSize: 35, color: Colors.white),
+                        ),
+                        const Text(
+                          "THIS MONTH",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          child: LinearProgressIndicator(
+                            value: 400 / 431.10,
+                            backgroundColor: Colors.red.shade200,
+                            color: Colors.green.shade200,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        )
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  )
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                        ),
+                        // first row
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.025,
+                            ),
+                            ExpenseTile(
+                              LinearGradient(
+                                colors: [Colors.purple, Colors.purple.shade200],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.025,
+                            ),
+                            ExpenseTile(
+                              LinearGradient(
+                                colors: [Colors.green, Colors.green.shade200],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.width * 0.025,
+                        ),
+                        // second row
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.025,
+                            ),
+                            ExpenseTile(
+                              LinearGradient(
+                                colors: [Colors.amber, Colors.amber.shade200],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.025,
+                            ),
+                            ExpenseTile(
+                              LinearGradient(
+                                colors: [Colors.blue, Colors.blue.shade200],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.width * 0.025,
+                        ),
+                        // third row
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.025,
+                            ),
+                            ExpenseTile(
+                              LinearGradient(
+                                colors: [Colors.red, Colors.red.shade200],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-            Expanded(
-              child: ListView(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                  ),
-                  // first row
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.025,
-                      ),
-                      ExpenseTile(
-                        LinearGradient(
-                          colors: [Colors.purple, Colors.purple.shade200],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.025,
-                      ),
-                      ExpenseTile(
-                        LinearGradient(
-                          colors: [Colors.green, Colors.green.shade200],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.025,
-                  ),
-                  // second row
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.025,
-                      ),
-                      ExpenseTile(
-                        LinearGradient(
-                          colors: [Colors.amber, Colors.amber.shade200],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.025,
-                      ),
-                      ExpenseTile(
-                        LinearGradient(
-                          colors: [Colors.blue, Colors.blue.shade200],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.025,
-                  ),
-                  // third row
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.025,
-                      ),
-                      ExpenseTile(
-                        LinearGradient(
-                          colors: [Colors.red, Colors.red.shade200],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -188,7 +196,11 @@ class ExpenseTile extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width * 0.4625,
         decoration: BoxDecoration(
-          gradient: color,
+          gradient: LinearGradient(
+            colors: [Colors.blue, Colors.blue.shade200],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(

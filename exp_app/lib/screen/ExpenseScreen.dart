@@ -28,86 +28,93 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      // TODO remove appbar for easier blur effect
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(widget.title),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.edit),
-          ),
-        ],
-      ),
       body: Stack(
         children: [
-          Center(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.blue, Colors.blue.shade200]),
-                    color: Colors.blue,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
+          Container(
+            color: Colors.blue,
+            height: MediaQuery.of(context).size.height * 0.05, // REVIEW
+          ),
+          SafeArea(
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  // appbar
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.blue, Colors.blue.shade200]),
+                      color: Colors.blue,
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30),
+                      ),
                     ),
-                  ),
-                  child: Column(
-                    children: [
-                      const Text(
-                        "TOTAL",
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                      const Text(
-                        "315.70",
-                        style: TextStyle(fontSize: 60, color: Colors.white),
-                      ),
-                      const Text(
-                        "194.10",
-                        style: TextStyle(fontSize: 35, color: Colors.white),
-                      ),
-                      const Text(
-                        "THIS MONTH",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        child: LinearProgressIndicator(
-                          value: 194.10 / 200,
-                          backgroundColor: Colors.white,
-                          color: Colors.green.shade200,
+                    child: Column(
+                      children: [
+                        const Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            child: Text(
+                              'GROCERIES',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      )
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: _onPressedOpenDialog,
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    alignment: Alignment.center,
-                    child: const Text(
-                      'ADD NEW ENTRY',
-                      style: TextStyle(color: Colors.blue),
+                        const Text(
+                          "TOTAL",
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        const Text(
+                          "315.70",
+                          style: TextStyle(fontSize: 60, color: Colors.white),
+                        ),
+                        const Text(
+                          "194.10",
+                          style: TextStyle(fontSize: 35, color: Colors.white),
+                        ),
+                        const Text(
+                          "THIS MONTH",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          child: LinearProgressIndicator(
+                            value: 194.10 / 200,
+                            backgroundColor: Colors.white,
+                            color: Colors.green.shade200,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        )
+                      ],
                     ),
                   ),
-                ),
-                const Expanded(
-                  child: InteractiveExpenseList(),
-                ),
-              ],
+                  GestureDetector(
+                    onTap: _onPressedOpenDialog,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      alignment: Alignment.center,
+                      child: const Text(
+                        'ADD NEW ENTRY',
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    ),
+                  ),
+                  const Expanded(
+                    child: InteractiveExpenseList(),
+                  ),
+                ],
+              ),
             ),
           ),
           AnimatedOpacity(
