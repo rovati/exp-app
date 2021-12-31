@@ -19,12 +19,14 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   final animation_duration = 200;
   late double _dialogOpacity;
   late bool _isDialogVisible;
+  late GlobalKey<NewEntryDialogState> _dialogKey;
 
   @override
   void initState() {
     super.initState();
     _dialogOpacity = 0.0;
     _isDialogVisible = false;
+    _dialogKey = GlobalKey();
   }
 
   @override
@@ -158,7 +160,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const NewEntryDialog(),
+        NewEntryDialog(key: _dialogKey),
         Container(
           alignment: Alignment.center,
           width: MediaQuery.of(context).size.width * 0.8,
@@ -198,8 +200,8 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     });
   }
 
-  // TODO add entry to expense list
   void _onTapConfirmNewEntry() {
+    _dialogKey.currentState?.createEntry();
     setState(() {
       _dialogOpacity = 0.0;
     });
