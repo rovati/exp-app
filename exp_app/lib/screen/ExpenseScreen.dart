@@ -129,50 +129,12 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   ),
                   Expanded(
                     child: Consumer<ExpenseList>(
-                      builder: (context, expenselist, child) => expenselist
-                              .loaded
-                          ? ListView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: expenselist.allEntries.length,
-                              itemBuilder: (context, index) {
-                                ExpenseEntry entry =
-                                    expenselist.allEntries[index];
-                                return Column(
-                                  children: [
-                                    ExpenseTile(entry),
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.01,
-                                    )
-                                  ],
-                                );
-                              },
-                            )
-                          : Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.3,
-                                    height:
-                                        MediaQuery.of(context).size.width * 0.3,
-                                    child: const CircularProgressIndicator(
-                                      backgroundColor: Colors.white,
-                                    ),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 20),
-                                    child: Text(
-                                      "LOADING...",
-                                      style: TextStyle(
-                                          color: Colors.blue, fontSize: 25),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                      builder: (context, expenselist, child) =>
+                          AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              child: expenselist.loaded
+                                  ? entriesList(expenselist)
+                                  : loadingProgress()),
                     ),
                   ),
                 ],
@@ -203,6 +165,44 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       ),
     );
   }
+
+  Widget entriesList(ExpenseList expenselist) => ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        itemCount: expenselist.allEntries.length,
+        itemBuilder: (context, index) {
+          ExpenseEntry entry = expenselist.allEntries[index];
+          return Column(
+            children: [
+              ExpenseTile(entry),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              )
+            ],
+          );
+        },
+      );
+
+  Widget loadingProgress() => Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.3,
+              height: MediaQuery.of(context).size.width * 0.3,
+              child: const CircularProgressIndicator(
+                backgroundColor: Colors.white,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Text(
+                "LOADING...",
+                style: TextStyle(color: Colors.blue, fontSize: 25),
+              ),
+            ),
+          ],
+        ),
+      );
 
   Widget fullDialog() {
     return Column(
