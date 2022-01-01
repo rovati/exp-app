@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'model/ExpenseList.dart';
-import 'screen/HomeScreen.dart';
+import 'screen/ExpenseScreen.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(title: 'EXP'),
+      home: const ExpenseScreen(title: 'EXP'),
     );
   }
 }

@@ -1,14 +1,17 @@
 import 'dart:ui';
 
-import 'package:exp/model/ExpenseEntry.dart';
 import 'package:exp/model/ExpenseList.dart';
+import 'package:exp/widget/ExpenseListBody.dart';
 import 'package:exp/widget/ExpenseListHeader.dart';
-import 'package:exp/widget/ExpenseTile.dart';
 import 'package:exp/widget/LoadingIndicator.dart';
 import 'package:exp/widget/NewEntryDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+/// WIdget representing the page for an expense list. It is composed by an upper
+/// section containing a summary of total and current month amounts, and a
+/// button to add new expenses, and by a lower part which contains the list of
+/// entries of this list.
 class ExpenseScreen extends StatefulWidget {
   const ExpenseScreen({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -94,7 +97,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                           AnimatedSwitcher(
                               duration: const Duration(milliseconds: 200),
                               child: expenselist.loaded
-                                  ? entriesList(expenselist)
+                                  ? ExpenseListBody(expenselist)
                                   : const LoadingIndicator()),
                     ),
                   ),
@@ -116,7 +119,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   opacity: _dialogOpacity,
                   duration: Duration(milliseconds: _animationDuration ~/ 2),
                   child: Center(
-                    child: fullDialog(),
+                    child: _fullDialog(),
                   ),
                 ),
               ),
@@ -127,29 +130,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     );
   }
 
-  Widget entriesList(ExpenseList expenselist) => ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemCount: expenselist.allEntries.length,
-        itemBuilder: (context, index) {
-          ExpenseEntry entry = expenselist.allEntries[index];
-          final paddingFst = EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.02,
-            bottom: MediaQuery.of(context).size.height * 0.005,
-            left: MediaQuery.of(context).size.width * 0.05,
-            right: MediaQuery.of(context).size.width * 0.05,
-          );
-          final padding = EdgeInsets.symmetric(
-            vertical: MediaQuery.of(context).size.height * 0.005,
-            horizontal: MediaQuery.of(context).size.width * 0.05,
-          );
-          return Padding(
-            padding: index == 0 ? paddingFst : padding,
-            child: ExpenseTile(entry),
-          );
-        },
-      );
-
-  Widget fullDialog() {
+  /// Dialog used to create new entries. Composed by an upper part for data
+  /// input and a lower one for action buttons.
+  Widget _fullDialog() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -175,6 +158,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Text(
+                  // REVIEW use constant
                   'CONFIRM',
                   style: TextStyle(color: Colors.white, fontSize: 15),
                 ),

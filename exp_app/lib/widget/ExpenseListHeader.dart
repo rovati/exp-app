@@ -5,14 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
-class ExpenseListHeader extends StatefulWidget {
+/// Widget containing the header of an ExpenseList.
+/// It shows the cumulative amount of the entries, and the partial amount for
+/// entries of the current month.
+class ExpenseListHeader extends StatelessWidget {
   const ExpenseListHeader({Key? key}) : super(key: key);
-
-  @override
-  _ELHeaderState createState() => _ELHeaderState();
-}
-
-class _ELHeaderState extends State<ExpenseListHeader> {
   @override
   Widget build(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.min,
@@ -23,6 +20,7 @@ class _ELHeaderState extends State<ExpenseListHeader> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 15),
                   child: Text(
+                    // REVIEW use constant
                     'GROCERIES',
                     style: TextStyle(
                         fontSize: 20,
@@ -50,6 +48,7 @@ class _ELHeaderState extends State<ExpenseListHeader> {
             ],
           ),
           const Text(
+            // REVIEW use constant
             "TOTAL",
             style: TextStyle(fontSize: 20, color: Colors.white),
           ),
@@ -68,12 +67,14 @@ class _ELHeaderState extends State<ExpenseListHeader> {
             ),
           ),
           const Text(
+            // REVIEW use constant
             "THIS MONTH",
             style: TextStyle(color: Colors.white),
           ),
           const SizedBox(
             height: 10,
           ),
+          // REVIEW remove for alpha
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
             child: LinearProgressIndicator(

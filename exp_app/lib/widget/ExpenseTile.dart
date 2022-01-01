@@ -3,6 +3,9 @@ import 'package:exp/model/ExpenseList.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+/// Tile for the given ExpenseEntry in the ExpenseList.
+/// It shows title, date and amount of the given entry. On long press it can be
+/// deleted.
 class ExpenseTile extends StatefulWidget {
   final ExpenseEntry entry;
 
@@ -49,12 +52,14 @@ class _ExpenseTileState extends State<ExpenseTile> {
                       child: const Padding(
                         padding: EdgeInsets.only(right: 15),
                         child: Text(
+                          // REVIEW use constant
                           'CANCEL',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                       ),
                     ),
                     const Text(
+                      // REVIEW use constant
                       '|',
                       style: TextStyle(color: Colors.white, fontSize: 35),
                     ),
@@ -63,6 +68,7 @@ class _ExpenseTileState extends State<ExpenseTile> {
                       child: const Padding(
                         padding: EdgeInsets.only(left: 15),
                         child: Text(
+                          // REVIEW use constant
                           'DELETE',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
@@ -88,6 +94,7 @@ class _ExpenseTileState extends State<ExpenseTile> {
                                       color: Colors.blue, fontSize: 20),
                                 ),
                                 Text(
+                                  // REVIEW use constant
                                   DateFormat('yyyy-MM-dd')
                                       .format(widget.entry.date),
                                   style: const TextStyle(

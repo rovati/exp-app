@@ -4,6 +4,7 @@ import 'package:page_transition/page_transition.dart';
 
 import 'InfoScreen.dart';
 
+// TODO refactor and comment after alpha release
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.title}) : super(key: key);
   final String title;

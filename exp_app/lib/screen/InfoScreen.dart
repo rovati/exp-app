@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// Widget representing an info page, where a brief desccription of the app is
+/// given together with other app details such as the version.
 class InfoScreen extends StatelessWidget {
   InfoScreen({Key? key}) : super(key: key);
 
@@ -10,6 +12,7 @@ class InfoScreen extends StatelessWidget {
       PackageInfo.fromPlatform().then((info) => info.version);
   final _bugReportLink = 'https://github.com/rovati/exp-app/issues';
 
+  // REVIEW move strings to constants
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +36,7 @@ class InfoScreen extends StatelessWidget {
                     style: const TextStyle(
                         decoration: TextDecoration.underline,
                         color: Colors.blue),
-                    recognizer: new TapGestureRecognizer()
+                    recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         launch(_bugReportLink);
                       },

@@ -1,8 +1,17 @@
 import 'package:flutter/widgets.dart';
 
+/// Utility class for dealing with dates. Also defines contants related to dates.
+/// NOTE on dates validity:
+/// - the years is valid if between minYear and current year included;
+/// - the month is valid if between 1 and 12 included, or between 1 and current
+///   month included in the case the year is the current year;
+/// - the day is valid if between 1 and the number of days of the month of the
+///   given year included, or between 1 and the current day ifn the case the
+///   year and month are the current ones.
 class DateUtil {
   static const int minYear = 2021;
 
+  /// Returns the number of days in a month of a given year.
   static int maxDays(int year, int month) {
     if (month == 2) {
       return (year % 400 == 0 || (year % 4 == 00 && !(year % 100 == 0)))
@@ -17,6 +26,7 @@ class DateUtil {
     }
   }
 
+  /// Clamps the input to a valid year
   static void clampYear(TextEditingController contrYear) {
     final currVal = contrYear.text.isEmpty ? -1 : int.parse(contrYear.text);
     final currYear = DateTime.now().year;
@@ -34,6 +44,7 @@ class DateUtil {
     );
   }
 
+  /// Clamps the month to a valid one.
   /// NOTE Assumes current year value is valid.
   static void clampMonth(
       TextEditingController contrMonth, TextEditingController contrYear) {
@@ -58,7 +69,8 @@ class DateUtil {
     );
   }
 
-  /// NOTE Assumes current year and months are valid
+  /// Clamps the day to a valid one.
+  /// NOTE Assumes current year and months are valid.
   static void clampDay(TextEditingController contrDay,
       TextEditingController contrMonth, TextEditingController contrYear) {
     final currDayVal = contrDay.text.isEmpty ? -1 : int.parse(contrDay.text);
@@ -86,6 +98,7 @@ class DateUtil {
     );
   }
 
+  /// If the input is empty, sets the year to minYear.
   static void clampEmptyYear(TextEditingController contrYear) {
     if (contrYear.text.isEmpty) {
       final text = DateUtil.minYear.toString();
@@ -96,6 +109,7 @@ class DateUtil {
     }
   }
 
+  /// If the input is empty, sets the month to 1.
   static void clampEmptyMonth(TextEditingController contrMonth) {
     if (contrMonth.text.isEmpty) {
       contrMonth.value = const TextEditingValue(
@@ -105,6 +119,7 @@ class DateUtil {
     }
   }
 
+  /// If the input is empty, sets the day to 1.
   static void clampEmptyDay(TextEditingController contrDay) {
     if (contrDay.text.isEmpty) {
       contrDay.value = const TextEditingValue(

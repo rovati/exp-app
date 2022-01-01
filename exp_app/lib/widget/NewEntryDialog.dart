@@ -3,6 +3,8 @@ import 'package:exp/model/ExpenseList.dart';
 import 'package:exp/util/DateUtil.dart';
 import 'package:flutter/material.dart';
 
+/// Widget for user input when creating new expense entries.
+/// It allows choosing a title, an amount and the date of the expense.
 class NewEntryDialog extends StatefulWidget {
   const NewEntryDialog({Key? key}) : super(key: key);
 
@@ -98,8 +100,6 @@ class NewEntryDialogState extends State<NewEntryDialog> {
                   textAlign: TextAlign.center,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
-                    /* hintText: 'YYYY',
-                    hintStyle: TextStyle(color: Colors.blue), */
                     border: InputBorder.none,
                     counterText: '',
                   ),
@@ -115,8 +115,6 @@ class NewEntryDialogState extends State<NewEntryDialog> {
                   textAlign: TextAlign.center,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
-                    /* hintText: 'MM',
-                    hintStyle: TextStyle(color: Colors.blue), */
                     border: InputBorder.none,
                     counterText: '',
                   ),
@@ -132,8 +130,6 @@ class NewEntryDialogState extends State<NewEntryDialog> {
                   textAlign: TextAlign.center,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
-                    /* hintText: 'DD',
-                    hintStyle: TextStyle(color: Colors.blue), */
                     border: InputBorder.none,
                     counterText: '',
                   ),
