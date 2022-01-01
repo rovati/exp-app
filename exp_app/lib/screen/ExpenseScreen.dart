@@ -112,19 +112,29 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                         ),
                         const SizedBox(
                           height: 10,
-                        )
+                        ),
+                        InkWell(
+                          onTap: _onPressedOpenDialog,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              child: Text(
+                                'ADD NEW ENTRY',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 15),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
                       ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: _onPressedOpenDialog,
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        'ADD NEW ENTRY',
-                        style: TextStyle(color: Colors.blue),
-                      ),
                     ),
                   ),
                   Expanded(
@@ -171,13 +181,19 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
         itemCount: expenselist.allEntries.length,
         itemBuilder: (context, index) {
           ExpenseEntry entry = expenselist.allEntries[index];
-          return Column(
-            children: [
-              ExpenseTile(entry),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.01,
-              )
-            ],
+          final paddingFst = EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.02,
+            bottom: MediaQuery.of(context).size.height * 0.005,
+            left: MediaQuery.of(context).size.width * 0.05,
+            right: MediaQuery.of(context).size.width * 0.05,
+          );
+          final padding = EdgeInsets.symmetric(
+            vertical: MediaQuery.of(context).size.height * 0.005,
+            horizontal: MediaQuery.of(context).size.width * 0.05,
+          );
+          return Padding(
+            padding: index == 0 ? paddingFst : padding,
+            child: ExpenseTile(entry),
           );
         },
       );
