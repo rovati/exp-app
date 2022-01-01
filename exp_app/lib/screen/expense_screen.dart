@@ -131,6 +131,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   /// Dialog used to create new entries. Composed by an upper part for data
   /// input and a lower one for action buttons.
   Widget _fullDialog() {
+    Gradient blueGr = LinearGradient(
+        colors: [Colors.blue, Colors.blue.shade200],
+        begin: Alignment.centerRight,
+        end: Alignment.centerLeft);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -146,19 +150,38 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               bottomRight: Radius.circular(20),
             ),
           ),
-          child: InkWell(
-            onTap: _onTapConfirmNewEntry,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                onTap: _onTapCloseDialog,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade200,
+                    //gradient: blueGr,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  alignment: Alignment.center,
+                  height: 40,
+                  width: 120,
+                  child: Text(Strings.cancel, style: TextStyles.white15),
+                ),
               ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Text(Strings.confirm, style: TextStyles.white15),
+              InkWell(
+                onTap: _onTapConfirmNewEntry,
+                child: Container(
+                  decoration: BoxDecoration(
+                    //color: Colors.blue,
+                    gradient: blueGr,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  alignment: Alignment.center,
+                  height: 40,
+                  width: 120,
+                  child: Text(Strings.confirm, style: TextStyles.white15),
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ],
@@ -174,6 +197,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
 
   void _onTapConfirmNewEntry() {
     _dialogKey.currentState?.createEntry();
+    _onTapCloseDialog();
+  }
+
+  void _onTapCloseDialog() {
     setState(() {
       _dialogOpacity = 0.0;
     });
