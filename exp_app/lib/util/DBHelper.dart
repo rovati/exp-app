@@ -5,8 +5,6 @@ import 'package:exp/model/ExpenseEntry.dart';
 import 'package:exp/model/ExpenseList.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'DateUtil.dart';
-
 class DBHelper {
   static Future<List<ExpenseEntry>> getExpenseEntries(int id) async {
     await createDirs();
