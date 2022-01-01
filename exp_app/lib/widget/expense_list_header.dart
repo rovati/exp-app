@@ -1,6 +1,6 @@
-import 'package:exp/model/DateKey.dart';
-import 'package:exp/model/ExpenseList.dart';
-import 'package:exp/screen/InfoScreen.dart';
+import 'package:exp/model/date_key.dart';
+import 'package:exp/model/expense_list.dart';
+import 'package:exp/screen/info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';

@@ -1,10 +1,10 @@
 import 'dart:ui';
 
-import 'package:exp/model/ExpenseList.dart';
-import 'package:exp/widget/ExpenseListBody.dart';
-import 'package:exp/widget/ExpenseListHeader.dart';
-import 'package:exp/widget/LoadingIndicator.dart';
-import 'package:exp/widget/NewEntryDialog.dart';
+import 'package:exp/model/expense_list.dart';
+import 'package:exp/widget/expense_list_body.dart';
+import 'package:exp/widget/expense_list_header.dart';
+import 'package:exp/widget/loading_indicator.dart';
+import 'package:exp/widget/new_entry_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

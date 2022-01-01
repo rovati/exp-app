@@ -1,10 +1,10 @@
-import 'package:exp/model/ExpenseEntry.dart';
-import 'package:exp/util/DBHelper.dart';
+import 'package:exp/model/expense_entry.dart';
+import 'package:exp/util/db_helper.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 
-import 'DateKey.dart';
+import 'date_key.dart';
 
 /// Singleton model for a list of expenses. When modified, it notifies the observing
 /// widget.

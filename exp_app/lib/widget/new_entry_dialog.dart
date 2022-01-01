@@ -1,6 +1,6 @@
-import 'package:exp/model/ExpenseEntry.dart';
-import 'package:exp/model/ExpenseList.dart';
-import 'package:exp/util/DateUtil.dart';
+import 'package:exp/model/expense_entry.dart';
+import 'package:exp/model/expense_list.dart';
+import 'package:exp/util/date_util.dart';
 import 'package:flutter/material.dart';
 
 /// Widget for user input when creating new expense entries.

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:exp/model/ExpenseEntry.dart';
-import 'package:exp/model/ExpenseList.dart';
+import 'package:exp/model/expense_entry.dart';
+import 'package:exp/model/expense_list.dart';
 import 'package:path_provider/path_provider.dart';
 
 /// Utility class for reading from and writing to local files.

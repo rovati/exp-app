@@ -1,8 +1,8 @@
-import 'package:exp/screen/ExpenseScreen.dart';
+import 'package:exp/screen/expense_screem.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-import 'InfoScreen.dart';
+import 'info_screen.dart';
 
 // TODO refactor and comment after alpha release
 class HomeScreen extends StatefulWidget {

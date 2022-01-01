@@ -1,5 +1,5 @@
-import 'package:exp/model/ExpenseEntry.dart';
-import 'package:exp/model/ExpenseList.dart';
+import 'package:exp/model/expense_entry.dart';
+import 'package:exp/model/expense_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

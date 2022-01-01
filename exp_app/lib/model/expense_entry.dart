@@ -1,4 +1,4 @@
-import 'package:exp/util/DateUtil.dart';
+import 'package:exp/util/date_util.dart';
 import 'package:intl/intl.dart';
 
 /// Immutable odel for an expense. The object represents the name, the amount

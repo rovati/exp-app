@@ -1,8 +1,8 @@
-import 'package:exp/model/ExpenseEntry.dart';
-import 'package:exp/model/ExpenseList.dart';
+import 'package:exp/model/expense_entry.dart';
+import 'package:exp/model/expense_list.dart';
 import 'package:flutter/material.dart';
 
-import 'ExpenseTile.dart';
+import 'expense_tile.dart';
 
 /// Widget of the entries of a given ExpenseList.
 /// It creates a ListView containing a ExpenseTile for each ExpenseEntry.
