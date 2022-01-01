@@ -6,7 +6,10 @@ import 'package:exp/model/ExpenseList.dart';
 import 'package:exp/widget/ExpenseTile.dart';
 import 'package:exp/widget/NewEntryDialog.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+
+import 'InfoScreen.dart';
 
 class ExpenseScreen extends StatefulWidget {
   const ExpenseScreen({Key? key, required this.title}) : super(key: key);
@@ -62,17 +65,37 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     ),
                     child: Column(
                       children: [
-                        const Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                            child: Text(
-                              'GROCERIES',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                        Stack(
+                          children: [
+                            const Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 15),
+                                child: Text(
+                                  'GROCERIES',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                             ),
-                          ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.fade,
+                                      child: InfoScreen(),
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.info_outline),
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
                         ),
                         const Text(
                           "TOTAL",

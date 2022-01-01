@@ -2,6 +2,8 @@ import 'package:exp/screen/ExpenseScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
+import 'InfoScreen.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -39,17 +41,37 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Column(
                       children: [
-                        const Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                            child: Text(
-                              'EXP',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                        Stack(
+                          children: [
+                            const Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 15),
+                                child: Text(
+                                  'EXP',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                             ),
-                          ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.fade,
+                                      child: InfoScreen(),
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.info_outline),
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
                         ),
                         const Text(
                           "TOTAL",
