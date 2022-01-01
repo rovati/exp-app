@@ -13,6 +13,20 @@ import 'constant/strings.dart';
 class DBHelper {
   /* EXPOSED API */
 
+  /// REVIEW for alpha release, to be modified
+  static void writeListHeader() async {
+    await _createDirs();
+    final file = File(await PathOrLink.nameMapPath);
+    final dummyMap = {
+      1: {
+        'name': 'PREV VERSION',
+        'total': 0.00,
+        'month': 0.00,
+      },
+    };
+    file.writeAsString(jsonEncode(dummyMap).toString());
+  }
+
   /// Reads and returns the list with the given id.
   static Future<List<ExpenseEntry>> getExpenseEntries(int id) async {
     await _createDirs();

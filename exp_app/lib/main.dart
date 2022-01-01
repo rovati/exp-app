@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import 'model/expense_list.dart';
 import 'screen/expense_screen.dart';
-import 'screen/home_screen.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(title: Strings.appName),
+      home: ExpenseScreen(title: Strings.appName),
     );
   }
 }

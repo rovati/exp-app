@@ -14,6 +14,10 @@ class PathOrLink {
     return await localPath + '/lists';
   }
 
+  static Future<String> get nameMapPath async {
+    return await localPath + '/tiles.json';
+  }
+
   static Future<String> listPath(int listID) async {
     return await localPath + '/lists/' + listID.toString() + '.json';
   }

@@ -20,7 +20,8 @@ class Strings {
   static String appDesc =
       'Thank you for checking out the alpha version of this app.';
   static String reportBug = 'Report a bug';
-  static String buildType = 'alpha'; // NOTE pick between 'v','beta' and 'alpha'
+  static String buildType =
+      'alpha '; // NOTE pick between 'v','beta' and 'alpha'
 
   /* DB HELPER */
   static String dbFailedList = 'failed to read list';

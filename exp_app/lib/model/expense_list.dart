@@ -29,6 +29,8 @@ class ExpenseList extends ChangeNotifier {
     id = -1;
     total = 0.00;
     entries = {};
+    // REVIEW for alpha release
+    DBHelper.writeListHeader();
     notifyListeners();
   }
 
