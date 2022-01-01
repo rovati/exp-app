@@ -6,3 +6,6 @@ exp_app/analysis_options.yaml
 exp_app/build/*
 exp_app/ios/*
 exp_app/web/
+exp_app/.flutter-plugins
+exp_app/.flutter-plugins-dependencies
+exp_app/lib/generated_plugin_registrant.dart

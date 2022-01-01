@@ -1,8 +1,9 @@
 import 'dart:ui';
 
 import 'package:exp/model/DateKey.dart';
+import 'package:exp/model/ExpenseEntry.dart';
 import 'package:exp/model/ExpenseList.dart';
-import 'package:exp/widget/InteractiveExpenseList.dart';
+import 'package:exp/widget/ExpenseTile.dart';
 import 'package:exp/widget/NewEntryDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,8 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   @override
   void initState() {
     super.initState();
+    // REVIEW modify to take id from home screen push
+    ExpenseList().load(1);
     _dialogOpacity = 0.0;
     _isDialogVisible = false;
     _dialogKey = GlobalKey();
@@ -124,8 +127,31 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                       ),
                     ),
                   ),
-                  const Expanded(
-                    child: InteractiveExpenseList(),
+                  Expanded(
+                    child: Consumer<ExpenseList>(
+                      builder: (context, expenselist, child) =>
+                          expenselist.loaded
+                              ? ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  itemCount: expenselist.allEntries.length,
+                                  itemBuilder: (context, index) {
+                                    ExpenseEntry entry =
+                                        expenselist.allEntries[index];
+                                    return Column(
+                                      children: [
+                                        ExpenseTile(entry),
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.01,
+                                        )
+                                      ],
+                                    );
+                                  },
+                                )
+                              : const Center(child: Text("LOADING...")),
+                    ),
                   ),
                 ],
               ),

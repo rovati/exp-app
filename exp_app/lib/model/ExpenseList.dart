@@ -1,4 +1,5 @@
 import 'package:exp/model/ExpenseEntry.dart';
+import 'package:exp/util/DBHelper.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
@@ -9,16 +10,38 @@ class ExpenseList extends ChangeNotifier {
   static final ExpenseList _list = ExpenseList._internal();
   late Map<DateKey, List<ExpenseEntry>> entries;
   late double total;
-  late double thisMonth;
+  late bool loaded;
+  late int id;
 
   factory ExpenseList() {
     return _list;
   }
 
   ExpenseList._internal() {
-    fill();
-    computeTotal();
+    loaded = false;
+    id = -1;
+    total = 0.00;
+    entries = {};
     notifyListeners();
+  }
+
+  // TODO modify to load from DB
+  void load(int listID) async {
+    id = listID;
+    List<ExpenseEntry> res = await DBHelper.getExpenseEntries(listID);
+    for (ExpenseEntry entry in res) {
+      _silentAdd(entry);
+    }
+    loaded = true;
+    notifyListeners();
+
+    /* Future.delayed(const Duration(seconds: 1), () {
+      id = listID;
+      fill();
+      computeTotal();
+      loaded = true;
+      notifyListeners();
+    }); */
   }
 
   // TODO load from database
@@ -63,16 +86,21 @@ class ExpenseList extends ChangeNotifier {
           ? 1
           : -1;
 
-  // TODO
-  void writeToDB() {}
+  void writeToDB() {
+    DBHelper.writeList(this);
+  }
 
-  void add(ExpenseEntry entry) {
+  void _silentAdd(ExpenseEntry entry) {
     final key = DateKey(entry.date.year, entry.date.month);
     entries.putIfAbsent(key, () => []);
     entries[key]!.add(entry);
     total += entry.amount;
     sortList(key);
     writeToDB();
+  }
+
+  void add(ExpenseEntry entry) {
+    _silentAdd(entry);
     notifyListeners();
   }
 
@@ -116,5 +144,12 @@ class ExpenseList extends ChangeNotifier {
       }
     }
     return partial;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'entries': allEntries.map((e) => e.toJson()).toList(),
+    };
   }
 }

@@ -2,15 +2,20 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:exp/model/ExpenseEntry.dart';
+import 'package:exp/model/ExpenseList.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'DateUtil.dart';
 
-class BHelper {
+class DBHelper {
   static Future<List<ExpenseEntry>> getExpenseEntries(int id) async {
     await createDirs();
-    final file = await getListPath(id);
-    return buildList(jsonDecode(file.readAsStringSync()));
+    final file = await getListFile(id);
+    if (!file.existsSync()) {
+      return [];
+    } else {
+      return buildList(jsonDecode(file.readAsStringSync()));
+    }
   }
 
   static Future<String> get _localPath async {
@@ -18,17 +23,14 @@ class BHelper {
     return directory.path;
   }
 
-  static Future<File> getListPath(int id) async {
-    final path = File(await _localPath + '/lists/' + id.toString() + '.json');
-    if (!path.existsSync()) {
-      createEmptyList(path);
-    }
-    return path;
+  static Future<File> getListFile(int id) async {
+    return File(await _localPath + '/lists/' + id.toString() + '.json');
   }
 
-  static void createEmptyList(File f) {
+  static void createEmptyList(File f, int id) {
     Map<String, dynamic> newFile = {};
     newFile['entries'] = [];
+    newFile['id'] = id;
     f.writeAsString(jsonEncode(newFile).toString());
   }
 
@@ -37,11 +39,6 @@ class BHelper {
     if (!listsDir.existsSync()) {
       await listsDir.create();
     }
-    /* getPathForOrdering().then((file) {
-      if (!file.existsSync()) {
-        file.writeAsString(// TODO);
-      }
-    }); */
   }
 
   static Future<List<File>> filterFiles(Directory dir) async {
@@ -54,15 +51,21 @@ class BHelper {
     return files;
   }
 
+  static void writeList(ExpenseList list) async {
+    await createDirs();
+    getListFile(list.id).then((file) {
+      final string = jsonEncode(ExpenseList()).toString();
+      file.writeAsString(string);
+    });
+  }
+
   static List<ExpenseEntry> buildList(Map<String, dynamic> json) {
     if (!json.keys.contains('entries')) {
       return [ExpenseEntry('failed to read list', 0.00, DateTime.now())];
     } else {
-      List<Map<String, dynamic>> list = json['entries'];
       List<ExpenseEntry> entries = [];
-      for (Map<String, dynamic> entryJson in list) {
-        entries.add(buildEntry(entryJson));
-      }
+      List<dynamic> list = json['entries'];
+      entries.addAll(list.map((e) => buildEntry(e)));
       return entries;
     }
   }
@@ -72,35 +75,11 @@ class BHelper {
       json['title'] = 'problem loading entry...';
     }
     if (!json.keys.contains('amount')) {
-      json['amount'] = 0.00;
+      json['amount'] = '0.00';
     }
     if (!json.keys.contains('date')) {
       json['date'] = '2021-01-01';
     }
-    return ExpenseEntry(
-        json['title'], double.parse(json['amount']), buildDate(json['date']));
-  }
-
-  // REVIEW better date handling? there should not be errors here
-  static DateTime buildDate(String s) {
-    final split = s.split("-");
-    final errorDate = DateTime(2021, 1, 1);
-    if (split.length != 3) {
-      return errorDate;
-    } else {
-      final year = int.parse(split[0]);
-      final month = int.parse(split[1]);
-      final day = int.parse(split[2]);
-      if (year > DateTime.now().year ||
-          year < DateUtil.minYear ||
-          month < 1 ||
-          month > 12 ||
-          day < 1 ||
-          day > 31) {
-        return errorDate;
-      } else {
-        return DateTime(year, month, day);
-      }
-    }
+    return ExpenseEntry.fromJson(json);
   }
 }
