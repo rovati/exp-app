@@ -1,5 +1,7 @@
 import 'package:exp/model/expense_entry.dart';
 import 'package:exp/model/expense_list.dart';
+import 'package:exp/util/constant/strings.dart';
+import 'package:exp/util/constant/text_styles.dart';
 import 'package:exp/util/date_util.dart';
 import 'package:flutter/material.dart';
 
@@ -62,10 +64,9 @@ class NewEntryDialogState extends State<NewEntryDialog> {
               maxLength: 15,
               style: const TextStyle(color: Colors.blue),
               textAlign: TextAlign.center,
-              decoration: const InputDecoration(
-                hintText: 'TITLE',
-                hintStyle:
-                    TextStyle(color: Colors.blue, fontStyle: FontStyle.italic),
+              decoration: InputDecoration(
+                hintText: Strings.nedTitle,
+                hintStyle: TextStyles.blueI,
                 border: InputBorder.none,
                 counterText: '',
               ),
@@ -79,10 +80,9 @@ class NewEntryDialogState extends State<NewEntryDialog> {
               textAlign: TextAlign.center,
               style: const TextStyle(color: Colors.blue),
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                hintText: 'AMOUNT',
-                hintStyle:
-                    TextStyle(color: Colors.blue, fontStyle: FontStyle.italic),
+              decoration: InputDecoration(
+                hintText: Strings.nedAmount,
+                hintStyle: TextStyles.blueI,
                 border: InputBorder.none,
                 counterText: '',
               ),
@@ -105,7 +105,7 @@ class NewEntryDialogState extends State<NewEntryDialog> {
                   ),
                 ),
               ),
-              const Text('-'),
+              const Text(DateUtil.dateFormatSep),
               Container(
                 width: MediaQuery.of(context).size.width * 0.1,
                 child: TextField(
@@ -120,7 +120,7 @@ class NewEntryDialogState extends State<NewEntryDialog> {
                   ),
                 ),
               ),
-              const Text('-'),
+              const Text(DateUtil.dateFormatSep),
               Container(
                 width: MediaQuery.of(context).size.width * 0.1,
                 child: TextField(
@@ -143,8 +143,12 @@ class NewEntryDialogState extends State<NewEntryDialog> {
   }
 
   void createEntry() {
-    final title = _contrTitle.text.isNotEmpty ? _contrTitle.text : 'expense';
-    final amount = _contrAmount.text.isNotEmpty ? _contrAmount.text : '0.00';
+    final title = _contrTitle.text.isNotEmpty
+        ? _contrTitle.text
+        : Strings.expEntryDefTitle;
+    final amount = _contrAmount.text.isNotEmpty
+        ? _contrAmount.text
+        : Strings.expEntryDefAmount;
     final date = DateTime(
       _contrYear.text.isNotEmpty
           ? int.parse(_contrYear.text)
@@ -155,12 +159,8 @@ class NewEntryDialogState extends State<NewEntryDialog> {
     ExpenseList().add(ExpenseEntry(title, double.parse(amount), date));
   }
 
-/* #### CALLBACKS ####
-
-  These callbacks are defined to check the input date and make it valid.
-  A valid date is considered to be between January 1st 2021 and the current
-  date.
-
+/* CALLBACKS
+  defined to check the input date and make it valid.
   REVIEW might be changed later to accept future dates, so that to addn planned
   expenses. */
 

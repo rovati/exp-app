@@ -1,5 +1,8 @@
 import 'package:exp/model/expense_entry.dart';
 import 'package:exp/model/expense_list.dart';
+import 'package:exp/util/constant/strings.dart';
+import 'package:exp/util/constant/text_styles.dart';
+import 'package:exp/util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -49,29 +52,17 @@ class _ExpenseTileState extends State<ExpenseTile> {
                   children: [
                     GestureDetector(
                       onTap: onTapDeselect,
-                      child: const Padding(
-                        padding: EdgeInsets.only(right: 15),
-                        child: Text(
-                          // REVIEW use constant
-                          'CANCEL',
-                          style: TextStyle(color: Colors.white, fontSize: 15),
-                        ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: Text(Strings.cancel, style: TextStyles.white15),
                       ),
                     ),
-                    const Text(
-                      // REVIEW use constant
-                      '|',
-                      style: TextStyle(color: Colors.white, fontSize: 35),
-                    ),
+                    Text(Strings.sep, style: TextStyles.white35),
                     GestureDetector(
                       onTap: onTapDelete,
-                      child: const Padding(
-                        padding: EdgeInsets.only(left: 15),
-                        child: Text(
-                          // REVIEW use constant
-                          'DELETE',
-                          style: TextStyle(color: Colors.white, fontSize: 15),
-                        ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Text(Strings.delete, style: TextStyles.white15),
                       ),
                     ),
                   ],
@@ -94,23 +85,17 @@ class _ExpenseTileState extends State<ExpenseTile> {
                                       color: Colors.blue, fontSize: 20),
                                 ),
                                 Text(
-                                  // REVIEW use constant
-                                  DateFormat('yyyy-MM-dd')
-                                      .format(widget.entry.date),
-                                  style: const TextStyle(
-                                      color: Colors.blue, fontSize: 15),
-                                ),
+                                    DateFormat(DateUtil.dateFormat)
+                                        .format(widget.entry.date),
+                                    style: TextStyles.blue15),
                               ],
                             ),
                           ),
                           Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              widget.entry.amount.toStringAsFixed(2),
-                              style: const TextStyle(
-                                  color: Colors.blue, fontSize: 30),
-                            ),
-                          ),
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                  widget.entry.amount.toStringAsFixed(2),
+                                  style: TextStyles.blue30)),
                         ],
                       ),
                     ),

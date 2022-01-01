@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:exp/model/expense_list.dart';
+import 'package:exp/util/constant/strings.dart';
+import 'package:exp/util/constant/text_styles.dart';
 import 'package:exp/widget/expense_list_body.dart';
 import 'package:exp/widget/expense_list_header.dart';
 import 'package:exp/widget/loading_indicator.dart';
@@ -75,15 +77,11 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                 border: Border.all(color: Colors.white),
                                 borderRadius: BorderRadius.circular(15),
                               ),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 20),
-                                child: Text(
-                                  // REVIEW use constant
-                                  'ADD NEW ENTRY',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 15),
-                                ),
+                                child: Text(Strings.newEntryButton,
+                                    style: TextStyles.white15),
                               ),
                             ),
                           ),
@@ -155,13 +153,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 color: Colors.blue,
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Text(
-                  // REVIEW use constant
-                  'CONFIRM',
-                  style: TextStyle(color: Colors.white, fontSize: 15),
-                ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Text(Strings.confirm, style: TextStyles.white15),
               ),
             ),
           ),

@@ -1,6 +1,8 @@
 import 'package:exp/model/date_key.dart';
 import 'package:exp/model/expense_list.dart';
 import 'package:exp/screen/info_screen.dart';
+import 'package:exp/util/constant/strings.dart';
+import 'package:exp/util/constant/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -16,17 +18,10 @@ class ExpenseListHeader extends StatelessWidget {
         children: [
           Stack(
             children: [
-              const Center(
+              Center(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                    // REVIEW use constant
-                    'GROCERIES',
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Text(Strings.appName, style: TextStyles.white20B),
                 ),
               ),
               Align(
@@ -37,7 +32,7 @@ class ExpenseListHeader extends StatelessWidget {
                       context,
                       PageTransition(
                         type: PageTransitionType.fade,
-                        child: InfoScreen(),
+                        child: const InfoScreen(),
                       ),
                     );
                   },
@@ -47,33 +42,22 @@ class ExpenseListHeader extends StatelessWidget {
               )
             ],
           ),
-          const Text(
-            // REVIEW use constant
-            "TOTAL",
-            style: TextStyle(fontSize: 20, color: Colors.white),
+          Text(Strings.total, style: TextStyles.white20),
+          Consumer<ExpenseList>(
+            builder: (context, expenselist, child) => Text(
+                expenselist.total.toStringAsFixed(2),
+                style: TextStyles.white60),
           ),
           Consumer<ExpenseList>(
             builder: (context, expenselist, child) => Text(
-              expenselist.total.toStringAsFixed(2),
-              style: const TextStyle(fontSize: 60, color: Colors.white),
-            ),
+                expenselist
+                    .totalFor(
+                        DateKey(DateTime.now().year, DateTime.now().month))
+                    .toStringAsFixed(2),
+                style: TextStyles.white35),
           ),
-          Consumer<ExpenseList>(
-            builder: (context, expenselist, child) => Text(
-              expenselist
-                  .totalFor(DateKey(DateTime.now().year, DateTime.now().month))
-                  .toStringAsFixed(2),
-              style: const TextStyle(fontSize: 35, color: Colors.white),
-            ),
-          ),
-          const Text(
-            // REVIEW use constant
-            "THIS MONTH",
-            style: TextStyle(color: Colors.white),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
+          Text(Strings.thisMonth, style: TextStyles.white),
+          const SizedBox(height: 10),
           // REVIEW remove for alpha
           Container(
             width: MediaQuery.of(context).size.width * 0.8,

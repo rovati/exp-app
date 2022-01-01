@@ -10,6 +10,9 @@ import 'package:flutter/widgets.dart';
 ///   year and month are the current ones.
 class DateUtil {
   static const int minYear = 2021;
+  static const String dateFormat = 'yyyy-MM-dd';
+  static const String dateFormatSep = '-';
+  static const String minMonthOrDay = '1';
 
   /// Returns the number of days in a month of a given year.
   static int maxDays(int year, int month) {
@@ -113,7 +116,7 @@ class DateUtil {
   static void clampEmptyMonth(TextEditingController contrMonth) {
     if (contrMonth.text.isEmpty) {
       contrMonth.value = const TextEditingValue(
-        text: '1',
+        text: minMonthOrDay,
         selection: TextSelection.collapsed(offset: 1),
       );
     }
@@ -123,7 +126,7 @@ class DateUtil {
   static void clampEmptyDay(TextEditingController contrDay) {
     if (contrDay.text.isEmpty) {
       contrDay.value = const TextEditingValue(
-        text: '1',
+        text: minMonthOrDay,
         selection: TextSelection.collapsed(offset: 1),
       );
     }

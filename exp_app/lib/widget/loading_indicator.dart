@@ -1,3 +1,5 @@
+import 'package:exp/util/constant/strings.dart';
+import 'package:exp/util/constant/text_styles.dart';
 import 'package:flutter/material.dart';
 
 /// Simple widget used as a placeholder while loading data to be shown on screen.
@@ -16,13 +18,9 @@ class LoadingIndicator extends StatelessWidget {
                 backgroundColor: Colors.white,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: Text(
-                // REVIEW use constants
-                "LOADING...",
-                style: TextStyle(color: Colors.blue, fontSize: 25),
-              ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Text(Strings.loading, style: TextStyles.blue25),
             ),
           ],
         ),

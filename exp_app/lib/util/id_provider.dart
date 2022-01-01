@@ -1,3 +1,4 @@
+import 'package:exp/util/constant/json_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Provider of unique ids for identification of expense lists.
@@ -5,8 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class IDProvider {
   static Future<int> getNextId() async {
     final prefs = await SharedPreferences.getInstance();
-    final currID = prefs.getInt('id') ?? 0;
-    prefs.setInt('id', currID + 1);
+    final currID = prefs.getInt(JSONKeys.spID) ?? 0;
+    prefs.setInt(JSONKeys.spID, currID + 1);
     return currID + 1;
   }
 }

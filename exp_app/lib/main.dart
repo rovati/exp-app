@@ -1,8 +1,9 @@
+import 'package:exp/util/constant/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'model/expense_list.dart';
-import 'screen/expense_screem.dart';
+import 'screen/expense_screen.dart';
 import 'screen/home_screen.dart';
 
 void main() {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(title: 'EXP'),
+      home: HomeScreen(title: Strings.appName),
     );
   }
 }

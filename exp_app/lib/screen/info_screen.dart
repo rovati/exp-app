@@ -1,16 +1,14 @@
+import 'package:exp/util/constant/paths_and_links.dart';
+import 'package:exp/util/constant/strings.dart';
+import 'package:exp/util/constant/text_styles.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Widget representing an info page, where a brief desccription of the app is
 /// given together with other app details such as the version.
 class InfoScreen extends StatelessWidget {
-  InfoScreen({Key? key}) : super(key: key);
-
-  final Future<String> _version =
-      PackageInfo.fromPlatform().then((info) => info.version);
-  final _bugReportLink = 'https://github.com/rovati/exp-app/issues';
+  const InfoScreen({Key? key}) : super(key: key);
 
   // REVIEW move strings to constants
   @override
@@ -23,22 +21,20 @@ class InfoScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
-                'Thank you for checking out the alpha version of this app.',
+              Text(
+                Strings.appDesc,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25, color: Colors.blue),
+                style: TextStyles.blue25,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: RichText(
                   text: TextSpan(
-                    text: 'Report a bug',
-                    style: const TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colors.blue),
+                    text: Strings.reportBug,
+                    style: TextStyles.blueU,
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        launch(_bugReportLink);
+                        launch(PathOrLink.bugReportLink);
                       },
                   ),
                 ),
@@ -46,18 +42,18 @@ class InfoScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: FutureBuilder<String>(
-                  future: _version,
+                  future: Strings.appVersion,
                   builder: (context, snapshot) {
-                    var version = 'retreiving app version...';
+                    var version = Strings.retrievingAppV;
                     if (snapshot.hasData) {
-                      version = 'v' + snapshot.data!;
+                      version = Strings.buildType + snapshot.data!;
                     }
                     if (snapshot.hasError) {
-                      version = 'failed to retreive the app version';
+                      version = Strings.failRetrieveAppV;
                     }
                     return Text(
                       version,
-                      style: const TextStyle(fontSize: 10, color: Colors.blue),
+                      style: TextStyles.blue10,
                     );
                   },
                 ),

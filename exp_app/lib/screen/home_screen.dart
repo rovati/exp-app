@@ -1,4 +1,4 @@
-import 'package:exp/screen/expense_screem.dart';
+import 'package:exp/screen/expense_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     context,
                                     PageTransition(
                                       type: PageTransitionType.fade,
-                                      child: InfoScreen(),
+                                      child: const InfoScreen(),
                                     ),
                                   );
                                 },
