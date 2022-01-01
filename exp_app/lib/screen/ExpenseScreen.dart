@@ -1,15 +1,13 @@
 import 'dart:ui';
 
-import 'package:exp/model/DateKey.dart';
 import 'package:exp/model/ExpenseEntry.dart';
 import 'package:exp/model/ExpenseList.dart';
+import 'package:exp/widget/ExpenseListHeader.dart';
 import 'package:exp/widget/ExpenseTile.dart';
+import 'package:exp/widget/LoadingIndicator.dart';
 import 'package:exp/widget/NewEntryDialog.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-
-import 'InfoScreen.dart';
 
 class ExpenseScreen extends StatefulWidget {
   const ExpenseScreen({Key? key, required this.title}) : super(key: key);
@@ -20,7 +18,7 @@ class ExpenseScreen extends StatefulWidget {
 }
 
 class _ExpenseScreenState extends State<ExpenseScreen> {
-  final animation_duration = 200;
+  final _animationDuration = 200;
   late double _dialogOpacity;
   late bool _isDialogVisible;
   late GlobalKey<NewEntryDialogState> _dialogKey;
@@ -49,7 +47,6 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             child: Center(
               child: Column(
                 children: <Widget>[
-                  // appbar
                   Container(
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
@@ -65,97 +62,28 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     ),
                     child: Column(
                       children: [
-                        Stack(
-                          children: [
-                            const Center(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 15),
+                        const ExpenseListHeader(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: InkWell(
+                            onTap: _onPressedOpenDialog,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.white),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 20),
                                 child: Text(
-                                  'GROCERIES',
+                                  // REVIEW use constant
+                                  'ADD NEW ENTRY',
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                                      color: Colors.white, fontSize: 15),
                                 ),
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      child: InfoScreen(),
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(Icons.info_outline),
-                                color: Colors.white,
-                              ),
-                            )
-                          ],
-                        ),
-                        const Text(
-                          "TOTAL",
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                        Consumer<ExpenseList>(
-                          builder: (context, expenselist, child) => Text(
-                            expenselist.total.toStringAsFixed(2),
-                            style: const TextStyle(
-                                fontSize: 60, color: Colors.white),
                           ),
-                        ),
-                        Consumer<ExpenseList>(
-                          builder: (context, expenselist, child) => Text(
-                            expenselist
-                                .totalFor(DateKey(
-                                    DateTime.now().year, DateTime.now().month))
-                                .toStringAsFixed(2),
-                            style: const TextStyle(
-                                fontSize: 35, color: Colors.white),
-                          ),
-                        ),
-                        const Text(
-                          "THIS MONTH",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          child: LinearProgressIndicator(
-                            value: 194.10 / 200,
-                            backgroundColor: Colors.white,
-                            color: Colors.green.shade200,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        InkWell(
-                          onTap: _onPressedOpenDialog,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 20),
-                              child: Text(
-                                'ADD NEW ENTRY',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 15),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
                         ),
                       ],
                     ),
@@ -167,7 +95,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                               duration: const Duration(milliseconds: 200),
                               child: expenselist.loaded
                                   ? entriesList(expenselist)
-                                  : loadingProgress()),
+                                  : const LoadingIndicator()),
                     ),
                   ),
                 ],
@@ -176,7 +104,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           ),
           AnimatedOpacity(
             opacity: _dialogOpacity,
-            duration: Duration(milliseconds: animation_duration),
+            duration: Duration(milliseconds: _animationDuration),
             child: BackdropFilter(
               filter: ImageFilter.blur(
                 sigmaX: 8.0,
@@ -186,7 +114,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 visible: _isDialogVisible,
                 child: AnimatedOpacity(
                   opacity: _dialogOpacity,
-                  duration: Duration(milliseconds: animation_duration ~/ 2),
+                  duration: Duration(milliseconds: _animationDuration ~/ 2),
                   child: Center(
                     child: fullDialog(),
                   ),
@@ -219,28 +147,6 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             child: ExpenseTile(entry),
           );
         },
-      );
-
-  Widget loadingProgress() => Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.3,
-              height: MediaQuery.of(context).size.width * 0.3,
-              child: const CircularProgressIndicator(
-                backgroundColor: Colors.white,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: Text(
-                "LOADING...",
-                style: TextStyle(color: Colors.blue, fontSize: 25),
-              ),
-            ),
-          ],
-        ),
       );
 
   Widget fullDialog() {
@@ -292,7 +198,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     setState(() {
       _dialogOpacity = 0.0;
     });
-    Future.delayed(Duration(milliseconds: animation_duration), () {
+    Future.delayed(Duration(milliseconds: _animationDuration), () {
       setState(() {
         _isDialogVisible = false;
       });

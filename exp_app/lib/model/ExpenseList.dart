@@ -6,8 +6,14 @@ import 'package:flutter/material.dart';
 
 import 'DateKey.dart';
 
+/// Singleton model for a list of expenses. When modified, it notifies the observing
+/// widget.
+/// When an ExpenseScreen is opened, the ExpenseList loads the corresponding
+/// list from the database.
 class ExpenseList extends ChangeNotifier {
   static final ExpenseList _list = ExpenseList._internal();
+  /* NOTE entries are sorted by year-month so that to have an easier way later
+   when dealing with various monthly summaries */
   late Map<DateKey, List<ExpenseEntry>> entries;
   late double total;
   late bool loaded;
@@ -17,6 +23,7 @@ class ExpenseList extends ChangeNotifier {
     return _list;
   }
 
+  /// Set default values, indicating the entries haven't been loaded yet.
   ExpenseList._internal() {
     loaded = false;
     id = -1;
@@ -25,7 +32,8 @@ class ExpenseList extends ChangeNotifier {
     notifyListeners();
   }
 
-  // TODO modify to load from DB
+  /// Async loading of the entries from the local database. Listeners are
+  /// notified only once the loading is completed.
   void load(int listID) async {
     id = listID;
     List<ExpenseEntry> res = await DBHelper.getExpenseEntries(listID);
@@ -34,108 +42,68 @@ class ExpenseList extends ChangeNotifier {
     }
     loaded = true;
     notifyListeners();
-
-    /* Future.delayed(const Duration(seconds: 1), () {
-      id = listID;
-      fill();
-      computeTotal();
-      loaded = true;
-      notifyListeners();
-    }); */
   }
 
-  // TODO load from database
-  void fill() {
-    entries = {
-      DateKey(2021, 12): [
-        ExpenseEntry("migros", 53.20, DateTime(2021, 12, 27)),
-        ExpenseEntry("ya pometta", 15.00, DateTime(2021, 12, 30)),
-        ExpenseEntry("denner", 22.00, DateTime(2021, 12, 27)),
-        ExpenseEntry("takinoa", 6.00, DateTime(2021, 12, 28)),
-        ExpenseEntry("random", 7.00, DateTime(2021, 12, 25)),
-      ],
-      DateKey(2021, 11): [
-        ExpenseEntry("migros", 44.90, DateTime(2021, 11, 30)),
-        ExpenseEntry("denner", 30.30, DateTime(2021, 11, 26)),
-        ExpenseEntry("takinoa", 8.40, DateTime(2021, 11, 28)),
-        ExpenseEntry("random", 7.10, DateTime(2021, 11, 19)),
-      ],
-      DateKey(2021, 10): [
-        ExpenseEntry("migros", 2.10, DateTime(2021, 10, 31)),
-        ExpenseEntry("bira", 11.90, DateTime(2021, 10, 31)),
-      ],
-    };
-    sort();
+  /// Sorts the list of entries of a given date key.
+  void _sortList(DateKey key) {
+    entries[key]?.sort(_compareEntries);
   }
 
-  void sort() {
-    for (DateKey key in entries.keys) {
-      entries[key]!.sort(compareEntries);
-    }
-  }
-
-  void sortList(DateKey key) {
-    entries[key]?.sort(compareEntries);
-  }
-
-  int compareEntries(ExpenseEntry e1, ExpenseEntry e2) =>
+  /// Comparator for sorting expense entries by descending date.
+  int _compareEntries(ExpenseEntry e1, ExpenseEntry e2) =>
       e1.date.isBefore(e2.date) ? 1 : -1;
 
-  int compareKeys(DateKey k1, DateKey k2) =>
+  /// Comparator for sorting date keys by descending date.
+  int _compareKeys(DateKey k1, DateKey k2) =>
       DateTime(k1.year, k1.month).isBefore(DateTime(k2.year, k2.month))
           ? 1
           : -1;
 
-  void writeToDB() {
+  /// Writes this list to disk.
+  void _writeToDB() {
     DBHelper.writeList(this);
   }
 
+  /// Adds an entry to the entries maps, without notifying listeners of the
+  /// change.
   void _silentAdd(ExpenseEntry entry) {
     final key = DateKey(entry.date.year, entry.date.month);
     entries.putIfAbsent(key, () => []);
     entries[key]!.add(entry);
     total += entry.amount;
-    sortList(key);
-    writeToDB();
+    _sortList(key);
+    _writeToDB();
   }
 
+  /// Adds an entry to the entries map, notifies listeners.
   void add(ExpenseEntry entry) {
     _silentAdd(entry);
     notifyListeners();
   }
 
+  /// Removes the entry from the entries map, notifies listeners.
   void remove(ExpenseEntry entry) {
     final key = DateKey(entry.date.year, entry.date.month);
     final res = entries[key]?.remove(entry);
     if (res != null) {
       total -= entry.amount;
     }
-    writeToDB();
+    _writeToDB();
     notifyListeners();
   }
 
-  void computeTotal() {
-    total = 0;
-    List<DateKey> sortedKeys = entries.keys.toList();
-    sortedKeys.sort(compareKeys);
-    for (int i = 0; i < sortedKeys.length; ++i) {
-      final expenses = entries[sortedKeys[i]];
-      for (ExpenseEntry expense in expenses!) {
-        total += expense.amount;
-      }
-    }
-  }
-
+  /// List of all entries, sorted by descending date
   List<ExpenseEntry> get allEntries {
     List<ExpenseEntry> sortedEntries = [];
     List<DateKey> sortedKeys = entries.keys.toList();
-    sortedKeys.sort(compareKeys);
+    sortedKeys.sort(_compareKeys);
     for (int i = 0; i < sortedKeys.length; ++i) {
       sortedEntries.addAll(entries[sortedKeys[i]]!);
     }
     return sortedEntries;
   }
 
+  /// Returns the total expense amount for the given date key.
   double totalFor(DateKey key) {
     double partial = 0;
     if (entries[key] != null) {
@@ -146,6 +114,7 @@ class ExpenseList extends ChangeNotifier {
     return partial;
   }
 
+  /// Serialization for saving to local database.
   Map<String, dynamic> toJson() {
     return {
       'id': id,

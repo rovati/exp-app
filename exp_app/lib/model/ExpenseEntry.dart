@@ -1,6 +1,9 @@
 import 'package:exp/util/DateUtil.dart';
 import 'package:intl/intl.dart';
 
+/// Immutable odel for an expense. The object represents the name, the amount
+/// and the date of an expense.
+/// NOTE some implementations are to be updated for future use.
 class ExpenseEntry {
   final String title;
   final double amount;
@@ -13,21 +16,14 @@ class ExpenseEntry {
         amount = json['amount'] as double,
         date = _buildDate(json['date']);
 
+  /// Serialization for saving to local DB.
   Map<String, dynamic> toJson() => {
         'title': title,
         'amount': amount,
         'date': DateFormat('yyyy-MM-dd').format(date)
       };
 
-  ExpenseEntry modifyTitle(String newTitle) {
-    return ExpenseEntry(newTitle, amount, date);
-  }
-
-  ExpenseEntry modifyAmount(double newAmount) {
-    return ExpenseEntry(title, newAmount, date);
-  }
-
-  // REVIEW better date handling? there should not be errors here
+  // NOTE loose check on the date. Might want to update.
   static DateTime _buildDate(String s) {
     final split = s.split("-");
     final errorDate = DateTime(2021, 1, 1);
