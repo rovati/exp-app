@@ -25,6 +25,7 @@ class ExpenseScreen extends StatefulWidget {
 class _ExpenseScreenState extends State<ExpenseScreen> {
   final _animationDuration = 200;
   late double _dialogOpacity;
+  late double _blurIntensity;
   late bool _isDialogVisible;
   late GlobalKey<NewEntryDialogState> _dialogKey;
 
@@ -34,6 +35,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     // REVIEW modify to take id from home screen push
     ExpenseList().load(1);
     _dialogOpacity = 0.0;
+    _blurIntensity = 0.0;
     _isDialogVisible = false;
     _dialogKey = GlobalKey();
   }
@@ -104,7 +106,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             ),
           ),
           AnimatedOpacity(
-            opacity: _dialogOpacity,
+            opacity: _blurIntensity,
             duration: Duration(milliseconds: _animationDuration),
             child: BackdropFilter(
               filter: ImageFilter.blur(
@@ -158,7 +160,6 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.blue.shade200,
-                    //gradient: blueGr,
                     borderRadius: BorderRadius.circular(15),
                   ),
                   alignment: Alignment.center,
@@ -171,7 +172,6 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 onTap: _onTapConfirmNewEntry,
                 child: Container(
                   decoration: BoxDecoration(
-                    //color: Colors.blue,
                     gradient: blueGr,
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -192,6 +192,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     setState(() {
       _isDialogVisible = true;
       _dialogOpacity = 1.0;
+      _blurIntensity = 1.0;
     });
   }
 
@@ -203,6 +204,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   void _onTapCloseDialog() {
     setState(() {
       _dialogOpacity = 0.0;
+      _blurIntensity = 0.0;
     });
     Future.delayed(Duration(milliseconds: _animationDuration), () {
       setState(() {
