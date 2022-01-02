@@ -11,7 +11,9 @@ import 'package:provider/provider.dart';
 /// It shows the cumulative amount of the entries, and the partial amount for
 /// entries of the current month.
 class ExpenseListHeader extends StatelessWidget {
-  const ExpenseListHeader({Key? key}) : super(key: key);
+  final String listName;
+  const ExpenseListHeader(this.listName, {Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.min,
@@ -21,7 +23,7 @@ class ExpenseListHeader extends StatelessWidget {
               Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: Text(Strings.appName, style: TextStyles.white20B),
+                  child: Text(listName, style: TextStyles.white20B),
                 ),
               ),
               Align(

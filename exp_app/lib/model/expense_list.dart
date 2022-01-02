@@ -37,7 +37,9 @@ class ExpenseList extends ChangeNotifier {
   /// notified only once the loading is completed.
   void load(int listID) async {
     id = listID;
+    loaded = false;
     List<ExpenseEntry> res = await DBHelper.getExpenseEntries(listID);
+    entries.clear();
     for (ExpenseEntry entry in res) {
       _silentAdd(entry);
     }

@@ -88,28 +88,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-class ExpenseTile extends StatelessWidget {
-  const ExpenseTile({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          PageTransition(
-            type: PageTransitionType.fade,
-            child: const ExpenseScreen(
-              title: 'GROCERIES',
-            ),
-          ),
-        );
-      },
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-        child: ListInfoTile(ListInfo('GROCERIES', 1)),
-      ),
-    );
-  }
-}

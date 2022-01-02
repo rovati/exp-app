@@ -18,7 +18,7 @@ class ListInfoTile extends StatelessWidget {
           PageTransition(
             type: PageTransitionType.fade,
             child: ExpenseScreen(
-              title: info.name,
+              info: info,
             ),
           ),
         );

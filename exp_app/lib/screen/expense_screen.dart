@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:exp/model/expense_list.dart';
+import 'package:exp/model/list_info.dart';
 import 'package:exp/util/constant/strings.dart';
 import 'package:exp/util/constant/text_styles.dart';
 import 'package:exp/widget/expense_list_body.dart';
@@ -15,8 +16,8 @@ import 'package:provider/provider.dart';
 /// button to add new expenses, and by a lower part which contains the list of
 /// entries of this list.
 class ExpenseScreen extends StatefulWidget {
-  const ExpenseScreen({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const ExpenseScreen({Key? key, required this.info}) : super(key: key);
+  final ListInfo info;
 
   @override
   State<ExpenseScreen> createState() => _ExpenseScreenState();
@@ -33,7 +34,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   void initState() {
     super.initState();
     // REVIEW modify to take id from home screen push
-    ExpenseList().load(1);
+    ExpenseList().load(widget.info.id);
     _dialogOpacity = 0.0;
     _blurIntensity = 0.0;
     _isDialogVisible = false;
@@ -69,7 +70,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     ),
                     child: Column(
                       children: [
-                        const ExpenseListHeader(),
+                        ExpenseListHeader(widget.info.name),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: InkWell(
