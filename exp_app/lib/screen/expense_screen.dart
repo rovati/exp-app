@@ -28,7 +28,6 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   late double _dialogOpacity;
   late double _blurIntensity;
   late bool _isDialogVisible;
-  late GlobalKey<NewEntryDialogState> _dialogKey;
 
   @override
   void initState() {
@@ -38,7 +37,6 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     _dialogOpacity = 0.0;
     _blurIntensity = 0.0;
     _isDialogVisible = false;
-    _dialogKey = GlobalKey();
   }
 
   @override
@@ -120,9 +118,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   opacity: _dialogOpacity,
                   duration: Duration(milliseconds: _animationDuration ~/ 2),
                   child: Center(
-                    child: NewEntryDialog(
-                        cancelCallback: _onTapCloseDialog,
-                        confirmCallback: _onTapConfirmNewEntry),
+                    child: NewEntryDialog(fadeoutCallback: _onTapCloseDialog),
                   ),
                 ),
               ),
@@ -139,11 +135,6 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       _dialogOpacity = 1.0;
       _blurIntensity = 1.0;
     });
-  }
-
-  void _onTapConfirmNewEntry() {
-    _dialogKey.currentState?.createEntry();
-    _onTapCloseDialog();
   }
 
   void _onTapCloseDialog() {

@@ -8,10 +8,8 @@ import 'package:flutter/material.dart';
 /// Widget for user input when creating new expense entries.
 /// It allows choosing a title, an amount and the date of the expense.
 class NewEntryDialog extends StatefulWidget {
-  final void Function() confirmCallback;
-  final void Function() cancelCallback;
-  const NewEntryDialog(
-      {Key? key, required this.confirmCallback, required this.cancelCallback})
+  final void Function() fadeoutCallback;
+  const NewEntryDialog({Key? key, required this.fadeoutCallback})
       : super(key: key);
 
   @override
@@ -54,7 +52,6 @@ class NewEntryDialogState extends State<NewEntryDialog> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
-      //height: MediaQuery.of(context).size.height * 0.20,
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(color: Colors.blue.shade300),
@@ -152,7 +149,7 @@ class NewEntryDialogState extends State<NewEntryDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   InkWell(
-                    onTap: widget.cancelCallback,
+                    onTap: widget.fadeoutCallback,
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.blue.shade200,
@@ -165,7 +162,7 @@ class NewEntryDialogState extends State<NewEntryDialog> {
                     ),
                   ),
                   InkWell(
-                    onTap: widget.confirmCallback,
+                    onTap: _onTapCreateEntry,
                     child: Container(
                       decoration: BoxDecoration(
                         gradient: blueGr,
@@ -186,7 +183,7 @@ class NewEntryDialogState extends State<NewEntryDialog> {
     );
   }
 
-  void createEntry() {
+  void _onTapCreateEntry() {
     final title = _contrTitle.text.isNotEmpty
         ? _contrTitle.text
         : Strings.expEntryDefTitle;
@@ -201,6 +198,7 @@ class NewEntryDialogState extends State<NewEntryDialog> {
       _contrDay.text.isNotEmpty ? int.parse(_contrDay.text) : 1,
     );
     ExpenseList().add(ExpenseEntry(title, double.parse(amount), date));
+    widget.fadeoutCallback();
   }
 
 /* CALLBACKS

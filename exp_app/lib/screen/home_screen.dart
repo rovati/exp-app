@@ -1,15 +1,13 @@
+import 'dart:ui';
+
 import 'package:exp/model/home_list.dart';
-import 'package:exp/model/list_info.dart';
-import 'package:exp/screen/expense_screen.dart';
-import 'package:exp/util/constant/strings.dart';
 import 'package:exp/util/constant/text_styles.dart';
 import 'package:exp/widget/home_list_body.dart';
 import 'package:exp/widget/home_list_header.dart';
-import 'package:exp/widget/list_info_tile.dart';
+import 'package:exp/widget/new_list_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 
-// TODO refactor and comment after alpha release
+/// Home page showing the various lists and a summary of all expense amounts.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -19,10 +17,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _animationDuration = 200;
+  late double _dialogOpacity;
+  late double _blurIntensity;
+  late bool _isDialogVisible;
+
   @override
   void initState() {
     super.initState();
     HomeList().load();
+    _dialogOpacity = 0.0;
+    _blurIntensity = 0.0;
+    _isDialogVisible = false;
   }
 
   @override
@@ -58,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: InkWell(
-                            onTap: () {},
+                            onTap: _onPressedOpenDialog,
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.white),
@@ -83,8 +89,48 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+          AnimatedOpacity(
+            opacity: _blurIntensity,
+            duration: Duration(milliseconds: _animationDuration),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(
+                sigmaX: 8.0,
+                sigmaY: 8.0,
+              ),
+              child: Visibility(
+                visible: _isDialogVisible,
+                child: AnimatedOpacity(
+                  opacity: _dialogOpacity,
+                  duration: Duration(milliseconds: _animationDuration ~/ 2),
+                  child: Center(
+                    child: NewListDialog(fadeoutCallback: _onTapCloseDialog),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  void _onPressedOpenDialog() {
+    setState(() {
+      _isDialogVisible = true;
+      _dialogOpacity = 1.0;
+      _blurIntensity = 1.0;
+    });
+  }
+
+  void _onTapCloseDialog() {
+    setState(() {
+      _dialogOpacity = 0.0;
+      _blurIntensity = 0.0;
+    });
+    Future.delayed(Duration(milliseconds: _animationDuration), () {
+      setState(() {
+        _isDialogVisible = false;
+      });
+    });
   }
 }
