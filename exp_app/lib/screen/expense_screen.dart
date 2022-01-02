@@ -119,7 +119,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   opacity: _dialogOpacity,
                   duration: Duration(milliseconds: _animationDuration ~/ 2),
                   child: Center(
-                    child: _fullDialog(),
+                    child: NewEntryDialog(
+                        cancelCallback: _onTapCloseDialog,
+                        confirmCallback: _onTapConfirmNewEntry),
                   ),
                 ),
               ),
@@ -127,64 +129,6 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  /// Dialog used to create new entries. Composed by an upper part for data
-  /// input and a lower one for action buttons.
-  Widget _fullDialog() {
-    Gradient blueGr = LinearGradient(
-        colors: [Colors.blue, Colors.blue.shade200],
-        begin: Alignment.centerRight,
-        end: Alignment.centerLeft);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        NewEntryDialog(key: _dialogKey),
-        Container(
-          alignment: Alignment.center,
-          width: MediaQuery.of(context).size.width * 0.8,
-          height: MediaQuery.of(context).size.height * 0.075,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(20),
-              bottomRight: Radius.circular(20),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              InkWell(
-                onTap: _onTapCloseDialog,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade200,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  alignment: Alignment.center,
-                  height: 40,
-                  width: 120,
-                  child: Text(Strings.cancel, style: TextStyles.white15),
-                ),
-              ),
-              InkWell(
-                onTap: _onTapConfirmNewEntry,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: blueGr,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  alignment: Alignment.center,
-                  height: 40,
-                  width: 120,
-                  child: Text(Strings.confirm, style: TextStyles.white15),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 
