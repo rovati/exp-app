@@ -40,7 +40,7 @@ class _ExpenseTileState extends State<ExpenseTile> {
         width: MediaQuery.of(context).size.width * 0.9,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.blue),
+          border: Border.all(color: Colors.blue.shade300),
           gradient: _isSelected ? redGr : whiteGr,
         ),
         duration: const Duration(milliseconds: 200),
@@ -79,15 +79,12 @@ class _ExpenseTileState extends State<ExpenseTile> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  widget.entry.title,
-                                  style: const TextStyle(
-                                      color: Colors.blue, fontSize: 20),
-                                ),
+                                Text(widget.entry.title,
+                                    style: TextStyles.lBlue20),
                                 Text(
                                     DateFormat(DateUtil.dateFormat)
                                         .format(widget.entry.date),
-                                    style: TextStyles.blue15),
+                                    style: TextStyles.lBlue15)
                               ],
                             ),
                           ),
@@ -95,7 +92,7 @@ class _ExpenseTileState extends State<ExpenseTile> {
                               alignment: Alignment.centerRight,
                               child: Text(
                                   widget.entry.amount.toStringAsFixed(2),
-                                  style: TextStyles.blue30)),
+                                  style: TextStyles.lBlue30)),
                         ],
                       ),
                     ),

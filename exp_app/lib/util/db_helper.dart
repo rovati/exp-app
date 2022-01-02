@@ -24,7 +24,7 @@ class DBHelper {
         'month': 0.00,
       },
     };
-    file.writeAsString(jsonEncode(dummyMap).toString());
+    file.writeAsString(dummyMap.toString());
   }
 
   /// Reads and returns the list with the given id.

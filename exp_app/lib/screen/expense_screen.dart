@@ -25,6 +25,7 @@ class ExpenseScreen extends StatefulWidget {
 class _ExpenseScreenState extends State<ExpenseScreen> {
   final _animationDuration = 200;
   late double _dialogOpacity;
+  late double _blurIntensity;
   late bool _isDialogVisible;
   late GlobalKey<NewEntryDialogState> _dialogKey;
 
@@ -34,6 +35,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     // REVIEW modify to take id from home screen push
     ExpenseList().load(1);
     _dialogOpacity = 0.0;
+    _blurIntensity = 0.0;
     _isDialogVisible = false;
     _dialogKey = GlobalKey();
   }
@@ -104,7 +106,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             ),
           ),
           AnimatedOpacity(
-            opacity: _dialogOpacity,
+            opacity: _blurIntensity,
             duration: Duration(milliseconds: _animationDuration),
             child: BackdropFilter(
               filter: ImageFilter.blur(
@@ -131,6 +133,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   /// Dialog used to create new entries. Composed by an upper part for data
   /// input and a lower one for action buttons.
   Widget _fullDialog() {
+    Gradient blueGr = LinearGradient(
+        colors: [Colors.blue, Colors.blue.shade200],
+        begin: Alignment.centerRight,
+        end: Alignment.centerLeft);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -146,19 +152,36 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               bottomRight: Radius.circular(20),
             ),
           ),
-          child: InkWell(
-            onTap: _onTapConfirmNewEntry,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                onTap: _onTapCloseDialog,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade200,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  alignment: Alignment.center,
+                  height: 40,
+                  width: 120,
+                  child: Text(Strings.cancel, style: TextStyles.white15),
+                ),
               ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Text(Strings.confirm, style: TextStyles.white15),
+              InkWell(
+                onTap: _onTapConfirmNewEntry,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: blueGr,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  alignment: Alignment.center,
+                  height: 40,
+                  width: 120,
+                  child: Text(Strings.confirm, style: TextStyles.white15),
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ],
@@ -169,13 +192,19 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     setState(() {
       _isDialogVisible = true;
       _dialogOpacity = 1.0;
+      _blurIntensity = 1.0;
     });
   }
 
   void _onTapConfirmNewEntry() {
     _dialogKey.currentState?.createEntry();
+    _onTapCloseDialog();
+  }
+
+  void _onTapCloseDialog() {
     setState(() {
       _dialogOpacity = 0.0;
+      _blurIntensity = 0.0;
     });
     Future.delayed(Duration(milliseconds: _animationDuration), () {
       setState(() {

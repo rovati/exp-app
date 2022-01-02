@@ -16,12 +16,12 @@ class Strings {
   static String failRetrieveAppV = 'failed to retrieve the app version';
 
   static Future<String> appVersion =
-      PackageInfo.fromPlatform().then((info) => info.version);
+      PackageInfo.fromPlatform().then((info) => 'v' + info.version);
   static String appDesc =
       'Thank you for checking out the alpha version of this app.';
   static String reportBug = 'Report a bug';
   static String buildType =
-      'alpha '; // NOTE pick between 'v','beta' and 'alpha'
+      '-alpha'; // NOTE pick between '-alpha', '-beta' or ''
 
   /* DB HELPER */
   static String dbFailedList = 'failed to read list';
