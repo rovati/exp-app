@@ -46,7 +46,7 @@ class InfoScreen extends StatelessWidget {
                   builder: (context, snapshot) {
                     var version = Strings.retrievingAppV;
                     if (snapshot.hasData) {
-                      version = Strings.buildType + snapshot.data!;
+                      version = snapshot.data! + Strings.buildType;
                     }
                     if (snapshot.hasError) {
                       version = Strings.failRetrieveAppV;
