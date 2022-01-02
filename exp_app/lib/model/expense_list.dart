@@ -58,7 +58,7 @@ class ExpenseList extends ChangeNotifier {
     if (res != null) {
       total -= entry.amount;
     }
-    _writeToDB();
+    DBHelper.writeExpenseList();
     notifyListeners();
   }
 
@@ -107,11 +107,6 @@ class ExpenseList extends ChangeNotifier {
           ? 1
           : -1;
 
-  /// Writes this list to disk.
-  void _writeToDB() {
-    DBHelper.writeExpenseList(this);
-  }
-
   /// Adds an entry to the entries maps, without notifying listeners of the
   /// change.
   void _silentAdd(ExpenseEntry entry) {
@@ -120,6 +115,6 @@ class ExpenseList extends ChangeNotifier {
     entries[key]!.add(entry);
     total += entry.amount;
     _sortList(key);
-    _writeToDB();
+    DBHelper.writeExpenseList();
   }
 }

@@ -32,9 +32,9 @@ class DBHelper {
   }
 
   /// Writes the given list to a local file.
-  static void writeExpenseList(ExpenseList list) async {
+  static void writeExpenseList() async {
     await _createDirs();
-    final listFile = File(await PathOrLink.listPath(list.id));
+    final listFile = File(await PathOrLink.listPath(ExpenseList().id));
     listFile.writeAsString(jsonEncode(ExpenseList()).toString());
   }
 
