@@ -6,6 +6,7 @@ class TextStyles {
   static TextStyle white20 = const TextStyle(color: Colors.white, fontSize: 20);
   static TextStyle white20B = const TextStyle(
       fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold);
+  static TextStyle white30 = const TextStyle(color: Colors.white, fontSize: 30);
   static TextStyle white35 = const TextStyle(color: Colors.white, fontSize: 35);
   static TextStyle white60 = const TextStyle(color: Colors.white, fontSize: 60);
 

@@ -28,7 +28,8 @@ class DBHelper {
   // TODO
   /// Reads and returns the list of the expense lists info.
   static Future<List<ListInfo>> getHomeList() async {
-    throw UnimplementedError();
+    return Future.delayed(
+        const Duration(seconds: 1), () => [ListInfo('GROCERIES', 1)]);
   }
 
   /// Writes the given list to a local file.
@@ -37,6 +38,8 @@ class DBHelper {
     final listFile = File(await PathOrLink.listPath(ExpenseList().id));
     listFile.writeAsString(jsonEncode(ExpenseList()).toString());
   }
+
+  // TODO remove expense list files when deleting from homelist!!!
 
   // TODO
   /// Writes the list of ExpenseLists to a local file.

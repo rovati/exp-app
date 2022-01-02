@@ -4,12 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'model/expense_list.dart';
+import 'model/home_list.dart';
 import 'screen/home_screen.dart';
 
 void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => ExpenseList()),
+      ChangeNotifierProvider(create: (_) => HomeList()),
     ],
     child: const MyApp(),
   ));
