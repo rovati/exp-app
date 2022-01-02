@@ -21,7 +21,7 @@ class Strings {
       'Thank you for checking out the alpha version of this app.';
   static String reportBug = 'Report a bug';
   static String buildType =
-      '-alpha'; // NOTE pick between '-alpha', '-beta' or none
+      '-alpha'; // NOTE pick between '-alpha', '-beta' or ''
 
   /* DB HELPER */
   static String dbFailedList = 'failed to read list';
