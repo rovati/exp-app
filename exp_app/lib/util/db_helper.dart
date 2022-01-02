@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:exp/model/expense_entry.dart';
 import 'package:exp/model/expense_list.dart';
+import 'package:exp/model/list_info.dart';
 import 'package:exp/util/constant/json_keys.dart';
 
 import 'constant/paths_and_links.dart';
@@ -24,11 +25,23 @@ class DBHelper {
     }
   }
 
+  // TODO
+  /// Reads and returns the list of the expense lists info.
+  static Future<List<ListInfo>> getHomeList() async {
+    throw UnimplementedError();
+  }
+
   /// Writes the given list to a local file.
-  static void writeList(ExpenseList list) async {
+  static void writeExpenseList(ExpenseList list) async {
     await _createDirs();
     final listFile = File(await PathOrLink.listPath(list.id));
     listFile.writeAsString(jsonEncode(ExpenseList()).toString());
+  }
+
+  // TODO
+  /// Writes the list of ExpenseLists to a local file.
+  static void writeHomeList() async {
+    throw UnimplementedError();
   }
 
   /* PRIVATE METHODS */

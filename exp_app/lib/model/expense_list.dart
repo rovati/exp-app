@@ -1,4 +1,5 @@
 import 'package:exp/model/expense_entry.dart';
+import 'package:exp/util/constant/json_keys.dart';
 import 'package:exp/util/db_helper.dart';
 import 'package:flutter/foundation.dart';
 
@@ -44,37 +45,6 @@ class ExpenseList extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Sorts the list of entries of a given date key.
-  void _sortList(DateKey key) {
-    entries[key]?.sort(_compareEntries);
-  }
-
-  /// Comparator for sorting expense entries by descending date.
-  int _compareEntries(ExpenseEntry e1, ExpenseEntry e2) =>
-      e1.date.isBefore(e2.date) ? 1 : -1;
-
-  /// Comparator for sorting date keys by descending date.
-  int _compareKeys(DateKey k1, DateKey k2) =>
-      DateTime(k1.year, k1.month).isBefore(DateTime(k2.year, k2.month))
-          ? 1
-          : -1;
-
-  /// Writes this list to disk.
-  void _writeToDB() {
-    DBHelper.writeList(this);
-  }
-
-  /// Adds an entry to the entries maps, without notifying listeners of the
-  /// change.
-  void _silentAdd(ExpenseEntry entry) {
-    final key = DateKey(entry.date.year, entry.date.month);
-    entries.putIfAbsent(key, () => []);
-    entries[key]!.add(entry);
-    total += entry.amount;
-    _sortList(key);
-    _writeToDB();
-  }
-
   /// Adds an entry to the entries map, notifies listeners.
   void add(ExpenseEntry entry) {
     _silentAdd(entry);
@@ -117,8 +87,39 @@ class ExpenseList extends ChangeNotifier {
   /// Serialization for saving to local database.
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'entries': allEntries.map((e) => e.toJson()).toList(),
+      JSONKeys.expListID: id,
+      JSONKeys.expListEntries: allEntries.map((e) => e.toJson()).toList(),
     };
+  }
+
+  /// Sorts the list of entries of a given date key.
+  void _sortList(DateKey key) {
+    entries[key]?.sort(_compareEntries);
+  }
+
+  /// Comparator for sorting expense entries by descending date.
+  int _compareEntries(ExpenseEntry e1, ExpenseEntry e2) =>
+      e1.date.isBefore(e2.date) ? 1 : -1;
+
+  /// Comparator for sorting date keys by descending date.
+  int _compareKeys(DateKey k1, DateKey k2) =>
+      DateTime(k1.year, k1.month).isBefore(DateTime(k2.year, k2.month))
+          ? 1
+          : -1;
+
+  /// Writes this list to disk.
+  void _writeToDB() {
+    DBHelper.writeExpenseList(this);
+  }
+
+  /// Adds an entry to the entries maps, without notifying listeners of the
+  /// change.
+  void _silentAdd(ExpenseEntry entry) {
+    final key = DateKey(entry.date.year, entry.date.month);
+    entries.putIfAbsent(key, () => []);
+    entries[key]!.add(entry);
+    total += entry.amount;
+    _sortList(key);
+    _writeToDB();
   }
 }
