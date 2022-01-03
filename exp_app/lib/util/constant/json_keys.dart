@@ -1,3 +1,4 @@
+/// names of the keys for json serialization in the various objects.
 class JSONKeys {
   /* ExpenseEntry */
   static String expEntryTitle = 'title';

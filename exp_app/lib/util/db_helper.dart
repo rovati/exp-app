@@ -12,7 +12,6 @@ import 'constant/paths_and_links.dart';
 import 'constant/strings.dart';
 
 /// Utility class for reading from and writing to local files.
-/// NOTE for the moment only supports reading and writing expense lists.
 class DBHelper {
   /* EXPOSED API */
 

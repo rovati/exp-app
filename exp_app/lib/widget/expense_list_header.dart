@@ -60,16 +60,6 @@ class ExpenseListHeader extends StatelessWidget {
                 style: TextStyles.white35),
           ),
           Text(Strings.thisMonth, style: TextStyles.white),
-          /* const SizedBox(height: 10),
-          // REVIEW remove for alpha
-          Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: LinearProgressIndicator(
-              value: 194.10 / 200,
-              backgroundColor: Colors.white,
-              color: Colors.green.shade200,
-            ),
-          ), */
         ],
       );
 }

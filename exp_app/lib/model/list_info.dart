@@ -1,5 +1,7 @@
 import 'package:exp/util/constant/json_keys.dart';
 
+/// Model for information about an expense list, to show on a list tile. It
+/// contains the list name, the id, the total and the total of the current month.
 class ListInfo {
   final String name;
   final int id;
@@ -23,6 +25,7 @@ class ListInfo {
     };
   }
 
+  /// Two lists are considered equals if their id is the same.
   @override
   bool operator ==(Object other) {
     return (other is ListInfo && id == other.id);

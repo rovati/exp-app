@@ -7,6 +7,7 @@ import 'package:exp/util/constant/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
+/// Tile for info of an expense list. It supports deletion.
 class ListInfoTile extends StatefulWidget {
   final ListInfo info;
 

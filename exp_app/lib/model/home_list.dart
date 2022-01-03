@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'date_key.dart';
 import 'list_info.dart';
 
+/// Model for the list of the expense lists, used in the home page.
 class HomeList extends ChangeNotifier {
   static final HomeList _list = HomeList._internal();
   late List<ListInfo> lists;
@@ -43,6 +44,8 @@ class HomeList extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Removes the current version of the element and inserts the new one,
+  /// updating the total.
   void modify(ListInfo info) {
     if (lists.contains(info)) {
       final old = lists[lists.indexOf(info)];

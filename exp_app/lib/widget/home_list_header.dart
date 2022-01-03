@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
+/// Header for the Home page. It shows the total amount of all the lists, and
+/// the amount of the current month of all the lists.
 class HomeListHeader extends StatelessWidget {
   const HomeListHeader({Key? key}) : super(key: key);
 

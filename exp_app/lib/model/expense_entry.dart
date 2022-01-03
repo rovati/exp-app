@@ -2,7 +2,7 @@ import 'package:exp/util/constant/json_keys.dart';
 import 'package:exp/util/date_util.dart';
 import 'package:intl/intl.dart';
 
-/// Immutable odel for an expense. The object represents the name, the amount
+/// Immutable model for an expense. The object represents the name, the amount
 /// and the date of an expense.
 /// NOTE some implementations are to be updated for future use.
 class ExpenseEntry {
