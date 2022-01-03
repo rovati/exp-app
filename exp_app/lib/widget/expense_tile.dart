@@ -21,12 +21,6 @@ class ExpenseTile extends StatefulWidget {
 
 class _ExpenseTileState extends State<ExpenseTile> {
   var _isSelected = false;
-  final Gradient whiteGr =
-      const LinearGradient(colors: [Colors.white, Colors.white]);
-  final Gradient redGr = LinearGradient(
-      colors: [Colors.red.shade200, Colors.red],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight);
 
   @override
   void initState() {
@@ -36,35 +30,34 @@ class _ExpenseTileState extends State<ExpenseTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
       onLongPress: _onLongPressSelect,
       child: AnimatedContainer(
+        alignment: Alignment.center,
+        height: 45,
         width: MediaQuery.of(context).size.width * 0.9,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.blue.shade300),
-          gradient: _isSelected ? redGr : whiteGr,
+          border: Border.all(
+              color: _isSelected ? Colors.red : Colors.blue.shade300),
+          color: Colors.white,
         ),
         duration: Animations.animDur,
         child: AnimatedSwitcher(
           duration: Animations.animDur,
           child: _isSelected
               ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
                       onTap: _onTapDeselect,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 15),
-                        child: Text(Strings.cancel, style: TextStyles.white15),
-                      ),
+                      child: Text(Strings.cancel, style: TextStyles.lRed15),
                     ),
-                    Text(Strings.sep, style: TextStyles.white35),
+                    Text(Strings.sep, style: TextStyles.red35),
                     GestureDetector(
                       onTap: _onTapDelete,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Text(Strings.delete, style: TextStyles.white15),
-                      ),
+                      child: Text(Strings.delete, style: TextStyles.red15),
                     ),
                   ],
                 )

@@ -41,11 +41,14 @@ class _ListInfoTileState extends State<ListInfoTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
       onTap: () => _onTapOpenList(context),
       onLongPress: _onLongPressShowDelete,
       child: AnimatedContainer(
         duration: Animations.animDur,
         alignment: Alignment.center,
+        height: 63,
         decoration: _isSelected ? selectedDec : normalDec,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -53,22 +56,16 @@ class _ListInfoTileState extends State<ListInfoTile> {
             duration: Animations.animDur,
             child: _isSelected
                 ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       GestureDetector(
                         onTap: _onTapDeselect,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: Text(Strings.cancel, style: TextStyles.lRed20),
-                        ),
+                        child: Text(Strings.cancel, style: TextStyles.lRed20),
                       ),
                       Text(Strings.sep, style: TextStyles.red32),
                       GestureDetector(
                         onTap: _onTapDelete,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: Text(Strings.delete, style: TextStyles.red20),
-                        ),
+                        child: Text(Strings.delete, style: TextStyles.red20),
                       ),
                     ],
                   )
@@ -97,15 +94,17 @@ class _ListInfoTileState extends State<ListInfoTile> {
   }
 
   void _onTapOpenList(BuildContext context) {
-    Navigator.push(
-      context,
-      PageTransition(
-        type: PageTransitionType.fade,
-        child: ExpenseScreen(
-          info: widget.info,
+    if (!_isSelected) {
+      Navigator.push(
+        context,
+        PageTransition(
+          type: PageTransitionType.fade,
+          child: ExpenseScreen(
+            info: widget.info,
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   void _onLongPressShowDelete() {
