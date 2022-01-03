@@ -20,7 +20,7 @@ Moreover, one of the main goals of the app is to have a modern UI achieved throu
 
 ### Currently Under Development
 
-The alpha version includes basic features for adding and removing entries to a single centralized list. Moving on to a beta version the goal is to include the system to create multiple lists and set budgets for each of them.
+The alpha version includes basic features for creating various expense lists, and adding and removing entries to each list. Moving on to a beta version the goal is to include the budget system and the summaries for each month.
 
 ## License
 
