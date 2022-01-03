@@ -32,7 +32,7 @@ Want to contirbute to the development of the app? Whether you want to share idea
 
 ## Screenshots
 ### Images of alpha version 0.2.1
-[Home Page](https://github.com/rovati/exp-app/blob/main/screenshots/0.2.1/home_screen_0.2.1.jpg)
-[Dialog for new list creation](https://github.com/rovati/exp-app/blob/main/screenshots/0.2.1/new_list_dialog_0.2.1.jpg)
-[Expense list Page](https://github.com/rovati/exp-app/blob/main/screenshots/0.2.1/expense_screen_0.2.1.jpg)
-[Dialog for new expense entry](https://github.com/rovati/exp-app/blob/main/screenshots/0.2.1/new_entry_dialog_0.2.1.jpg)
+![Home Page](https://github.com/rovati/exp-app/blob/main/screenshots/0.2.1/home_screen_0.2.1.jpg)
+![Dialog for new list creation](https://github.com/rovati/exp-app/blob/main/screenshots/0.2.1/new_list_dialog_0.2.1.jpg)
+![Expense list Page](https://github.com/rovati/exp-app/blob/main/screenshots/0.2.1/expense_screen_0.2.1.jpg)
+![Dialog for new expense entry](https://github.com/rovati/exp-app/blob/main/screenshots/0.2.1/new_entry_dialog_0.2.1.jpg)
