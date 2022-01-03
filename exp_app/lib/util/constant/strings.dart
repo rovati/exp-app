@@ -30,10 +30,16 @@ class Strings {
   static String dbFailedEntryDate = '2021-01-01';
   static String dbPrevVerListName = 'old version list';
 
-  /* EXPENSE LIST HEADER */
+  /* EXPENSE LIST */
   static String appName = 'EXP';
   static String total = 'TOTAL';
   static String thisMonth = 'THIS MONTH';
+  static String emptyExpBody =
+      'To add a new expense to this list, tap on \'add new entry\'.';
+
+  /* HOME LIST */
+  static String emptyHomeBody =
+      'To create a new list, tap on \'add new list\'.';
 
   /* NEW ENTRY DIALOG */
   static String nedTitle = 'TITLE';
