@@ -1,3 +1,4 @@
+import 'package:exp/util/constant/json_keys.dart';
 import 'package:exp/util/db_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -48,7 +49,7 @@ class HomeList extends ChangeNotifier {
     if (res) {
       total -= info.total;
     }
-    DBHelper.writeHomeList();
+    DBHelper.writeHomeList(true);
     notifyListeners();
   }
 
@@ -68,6 +69,12 @@ class HomeList extends ChangeNotifier {
     throw UnimplementedError();
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      JSONKeys.homeListlists: lists.map((e) => e.toJson()).toList(),
+    };
+  }
+
   /// Adds the element to the list without notifying the listeners.
   /// It does not add an element if already one with same id is in the list. In
   /// that case, it removes the old element before adding the new one, and
@@ -80,7 +87,7 @@ class HomeList extends ChangeNotifier {
     }
     lists.add(info);
     total += info.total;
-    DBHelper.writeHomeList();
+    DBHelper.writeHomeList(false);
   }
 
   void _sortList() {

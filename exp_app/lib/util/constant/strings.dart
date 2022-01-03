@@ -28,6 +28,7 @@ class Strings {
   static String dbFailedEntryTitle = 'problem loading entry...';
   static String dbFailedEntryAmount = '0.00';
   static String dbFailedEntryDate = '2021-01-01';
+  static String dbPrevVerListName = 'old version list';
 
   /* EXPENSE LIST HEADER */
   static String appName = 'EXP';

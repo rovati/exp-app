@@ -8,6 +8,9 @@ class JSONKeys {
   static String expListID = 'id';
   static String expListEntries = 'entries';
 
+  /* HomeList */
+  static String homeListlists = 'lists';
+
   /* ListInfo */
   static String listInfoName = 'name';
   static String listInfoID = 'id';

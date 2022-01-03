@@ -1,7 +1,7 @@
 import 'package:path_provider/path_provider.dart';
 
 class PathOrLink {
-  /* LINKS */
+  /* URLs */
   static String bugReportLink = 'https://github.com/rovati/exp-app/issues';
 
   /* PATHS */
@@ -12,6 +12,10 @@ class PathOrLink {
 
   static Future<String> get listsDirectory async {
     return await localPath + '/lists';
+  }
+
+  static Future<String> get homeListPath async {
+    return await localPath + '/homelist.json';
   }
 
   static Future<String> listPath(int listID) async {
