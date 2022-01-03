@@ -28,6 +28,7 @@ class Strings {
   static String dbFailedEntryTitle = 'problem loading entry...';
   static String dbFailedEntryAmount = '0.00';
   static String dbFailedEntryDate = '2021-01-01';
+  static String dbPrevVerListName = 'old version list';
 
   /* EXPENSE LIST HEADER */
   static String appName = 'EXP';
@@ -38,7 +39,13 @@ class Strings {
   static String nedTitle = 'TITLE';
   static String nedAmount = 'AMOUNT';
 
+  /* NEW LIST DIALOG */
+  static String nldName = 'NEW LIST';
+
   /* EXPENSE ENTRY */
   static String expEntryDefTitle = 'expense';
   static String expEntryDefAmount = '0.00';
+
+  /* INFO TILE */
+  static String infoThisMonth = 'THIS MONTH: ';
 }

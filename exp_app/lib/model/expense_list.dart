@@ -1,4 +1,7 @@
 import 'package:exp/model/expense_entry.dart';
+import 'package:exp/model/home_list.dart';
+import 'package:exp/model/list_info.dart';
+import 'package:exp/util/constant/json_keys.dart';
 import 'package:exp/util/db_helper.dart';
 import 'package:flutter/foundation.dart';
 
@@ -15,6 +18,7 @@ class ExpenseList extends ChangeNotifier {
   /* NOTE entries are sorted by year-month so that to have an easier way later
    when dealing with various monthly summaries */
   late Map<DateKey, List<ExpenseEntry>> entries;
+  late String name;
   late double total;
   late bool loaded;
   late int id;
@@ -29,57 +33,33 @@ class ExpenseList extends ChangeNotifier {
     id = -1;
     total = 0.00;
     entries = {};
-    // REVIEW for alpha release
-    DBHelper.writeListHeader();
+    name = '';
     notifyListeners();
   }
 
   /// Async loading of the entries from the local database. Listeners are
   /// notified only once the loading is completed.
-  void load(int listID) async {
+  void load(int listID, String name) async {
+    loaded = false;
     id = listID;
+    this.name = name;
+    entries.clear();
+    total = 0;
     List<ExpenseEntry> res = await DBHelper.getExpenseEntries(listID);
     for (ExpenseEntry entry in res) {
       _silentAdd(entry);
     }
     loaded = true;
+    HomeList()
+        .modify(ListInfo(name, id, total: total, monthTotal: thisMonthTotal));
     notifyListeners();
-  }
-
-  /// Sorts the list of entries of a given date key.
-  void _sortList(DateKey key) {
-    entries[key]?.sort(_compareEntries);
-  }
-
-  /// Comparator for sorting expense entries by descending date.
-  int _compareEntries(ExpenseEntry e1, ExpenseEntry e2) =>
-      e1.date.isBefore(e2.date) ? 1 : -1;
-
-  /// Comparator for sorting date keys by descending date.
-  int _compareKeys(DateKey k1, DateKey k2) =>
-      DateTime(k1.year, k1.month).isBefore(DateTime(k2.year, k2.month))
-          ? 1
-          : -1;
-
-  /// Writes this list to disk.
-  void _writeToDB() {
-    DBHelper.writeList(this);
-  }
-
-  /// Adds an entry to the entries maps, without notifying listeners of the
-  /// change.
-  void _silentAdd(ExpenseEntry entry) {
-    final key = DateKey(entry.date.year, entry.date.month);
-    entries.putIfAbsent(key, () => []);
-    entries[key]!.add(entry);
-    total += entry.amount;
-    _sortList(key);
-    _writeToDB();
   }
 
   /// Adds an entry to the entries map, notifies listeners.
   void add(ExpenseEntry entry) {
     _silentAdd(entry);
+    HomeList()
+        .modify(ListInfo(name, id, total: total, monthTotal: thisMonthTotal));
     notifyListeners();
   }
 
@@ -90,7 +70,9 @@ class ExpenseList extends ChangeNotifier {
     if (res != null) {
       total -= entry.amount;
     }
-    _writeToDB();
+    HomeList()
+        .modify(ListInfo(name, id, total: total, monthTotal: thisMonthTotal));
+    DBHelper.writeExpenseList();
     notifyListeners();
   }
 
@@ -116,11 +98,41 @@ class ExpenseList extends ChangeNotifier {
     return partial;
   }
 
+  /// Total for the current month.
+  double get thisMonthTotal =>
+      totalFor(DateKey(DateTime.now().year, DateTime.now().month));
+
   /// Serialization for saving to local database.
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'entries': allEntries.map((e) => e.toJson()).toList(),
+      JSONKeys.expListID: id,
+      JSONKeys.expListEntries: allEntries.map((e) => e.toJson()).toList(),
     };
+  }
+
+  /// Sorts the list of entries of a given date key.
+  void _sortList(DateKey key) {
+    entries[key]?.sort(_compareEntries);
+  }
+
+  /// Comparator for sorting expense entries by descending date.
+  int _compareEntries(ExpenseEntry e1, ExpenseEntry e2) =>
+      e1.date.isBefore(e2.date) ? 1 : -1;
+
+  /// Comparator for sorting date keys by descending date.
+  int _compareKeys(DateKey k1, DateKey k2) =>
+      DateTime(k1.year, k1.month).isBefore(DateTime(k2.year, k2.month))
+          ? 1
+          : -1;
+
+  /// Adds an entry to the entries maps, without notifying listeners of the
+  /// change.
+  void _silentAdd(ExpenseEntry entry) {
+    final key = DateKey(entry.date.year, entry.date.month);
+    entries.putIfAbsent(key, () => []);
+    entries[key]!.add(entry);
+    total += entry.amount;
+    _sortList(key);
+    DBHelper.writeExpenseList();
   }
 }

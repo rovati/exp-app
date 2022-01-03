@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:exp/model/expense_list.dart';
+import 'package:exp/model/list_info.dart';
+import 'package:exp/util/constant/animations.dart';
 import 'package:exp/util/constant/strings.dart';
 import 'package:exp/util/constant/text_styles.dart';
 import 'package:exp/widget/expense_list_body.dart';
@@ -15,29 +17,26 @@ import 'package:provider/provider.dart';
 /// button to add new expenses, and by a lower part which contains the list of
 /// entries of this list.
 class ExpenseScreen extends StatefulWidget {
-  const ExpenseScreen({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const ExpenseScreen({Key? key, required this.info}) : super(key: key);
+  final ListInfo info;
 
   @override
   State<ExpenseScreen> createState() => _ExpenseScreenState();
 }
 
 class _ExpenseScreenState extends State<ExpenseScreen> {
-  final _animationDuration = 200;
   late double _dialogOpacity;
   late double _blurIntensity;
   late bool _isDialogVisible;
-  late GlobalKey<NewEntryDialogState> _dialogKey;
 
   @override
   void initState() {
     super.initState();
     // REVIEW modify to take id from home screen push
-    ExpenseList().load(1);
+    ExpenseList().load(widget.info.id, widget.info.name);
     _dialogOpacity = 0.0;
     _blurIntensity = 0.0;
     _isDialogVisible = false;
-    _dialogKey = GlobalKey();
   }
 
   @override
@@ -69,7 +68,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     ),
                     child: Column(
                       children: [
-                        const ExpenseListHeader(),
+                        ExpenseListHeader(widget.info.name),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: InkWell(
@@ -95,7 +94,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     child: Consumer<ExpenseList>(
                       builder: (context, expenselist, child) =>
                           AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 200),
+                              duration: Animations.animDur,
                               child: expenselist.loaded
                                   ? ExpenseListBody(expenselist)
                                   : const LoadingIndicator()),
@@ -107,7 +106,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           ),
           AnimatedOpacity(
             opacity: _blurIntensity,
-            duration: Duration(milliseconds: _animationDuration),
+            duration: Animations.animDur,
             child: BackdropFilter(
               filter: ImageFilter.blur(
                 sigmaX: 8.0,
@@ -117,9 +116,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 visible: _isDialogVisible,
                 child: AnimatedOpacity(
                   opacity: _dialogOpacity,
-                  duration: Duration(milliseconds: _animationDuration ~/ 2),
+                  duration: Animations.animHalfDur,
                   child: Center(
-                    child: _fullDialog(),
+                    child: NewEntryDialog(fadeoutCallback: _onTapCloseDialog),
                   ),
                 ),
               ),
@@ -127,64 +126,6 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  /// Dialog used to create new entries. Composed by an upper part for data
-  /// input and a lower one for action buttons.
-  Widget _fullDialog() {
-    Gradient blueGr = LinearGradient(
-        colors: [Colors.blue, Colors.blue.shade200],
-        begin: Alignment.centerRight,
-        end: Alignment.centerLeft);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        NewEntryDialog(key: _dialogKey),
-        Container(
-          alignment: Alignment.center,
-          width: MediaQuery.of(context).size.width * 0.8,
-          height: MediaQuery.of(context).size.height * 0.075,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(20),
-              bottomRight: Radius.circular(20),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              InkWell(
-                onTap: _onTapCloseDialog,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade200,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  alignment: Alignment.center,
-                  height: 40,
-                  width: 120,
-                  child: Text(Strings.cancel, style: TextStyles.white15),
-                ),
-              ),
-              InkWell(
-                onTap: _onTapConfirmNewEntry,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: blueGr,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  alignment: Alignment.center,
-                  height: 40,
-                  width: 120,
-                  child: Text(Strings.confirm, style: TextStyles.white15),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 
@@ -196,17 +137,12 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     });
   }
 
-  void _onTapConfirmNewEntry() {
-    _dialogKey.currentState?.createEntry();
-    _onTapCloseDialog();
-  }
-
   void _onTapCloseDialog() {
     setState(() {
       _dialogOpacity = 0.0;
       _blurIntensity = 0.0;
     });
-    Future.delayed(Duration(milliseconds: _animationDuration), () {
+    Future.delayed(Animations.animDur, () {
       setState(() {
         _isDialogVisible = false;
       });

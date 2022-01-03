@@ -1,5 +1,4 @@
-import 'package:exp/model/date_key.dart';
-import 'package:exp/model/expense_list.dart';
+import 'package:exp/model/home_list.dart';
 import 'package:exp/screen/info_screen.dart';
 import 'package:exp/util/constant/strings.dart';
 import 'package:exp/util/constant/text_styles.dart';
@@ -7,12 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
-/// Widget containing the header of an ExpenseList.
-/// It shows the cumulative amount of the entries, and the partial amount for
-/// entries of the current month.
-class ExpenseListHeader extends StatelessWidget {
-  final String listName;
-  const ExpenseListHeader(this.listName, {Key? key}) : super(key: key);
+class HomeListHeader extends StatelessWidget {
+  const HomeListHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -23,8 +18,7 @@ class ExpenseListHeader extends StatelessWidget {
               Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
-                  child:
-                      Text(listName.toUpperCase(), style: TextStyles.white20B),
+                  child: Text(Strings.appName, style: TextStyles.white20B),
                 ),
               ),
               Align(
@@ -46,17 +40,14 @@ class ExpenseListHeader extends StatelessWidget {
             ],
           ),
           Text(Strings.total, style: TextStyles.white20),
-          Consumer<ExpenseList>(
-            builder: (context, expenselist, child) => Text(
-                expenselist.total.toStringAsFixed(2),
+          Consumer<HomeList>(
+            builder: (context, homelist, child) => Text(
+                homelist.total.toStringAsFixed(2),
                 style: TextStyles.white60),
           ),
-          Consumer<ExpenseList>(
+          Consumer<HomeList>(
             builder: (context, expenselist, child) => Text(
-                expenselist
-                    .totalFor(
-                        DateKey(DateTime.now().year, DateTime.now().month))
-                    .toStringAsFixed(2),
+                expenselist.thisMonthTotal.toStringAsFixed(2),
                 style: TextStyles.white35),
           ),
           Text(Strings.thisMonth, style: TextStyles.white),

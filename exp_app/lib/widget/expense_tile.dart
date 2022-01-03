@@ -1,5 +1,6 @@
 import 'package:exp/model/expense_entry.dart';
 import 'package:exp/model/expense_list.dart';
+import 'package:exp/util/constant/animations.dart';
 import 'package:exp/util/constant/strings.dart';
 import 'package:exp/util/constant/text_styles.dart';
 import 'package:exp/util/date_util.dart';
@@ -35,7 +36,7 @@ class _ExpenseTileState extends State<ExpenseTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onLongPress: onLongPressSelect,
+      onLongPress: _onLongPressSelect,
       child: AnimatedContainer(
         width: MediaQuery.of(context).size.width * 0.9,
         decoration: BoxDecoration(
@@ -43,15 +44,15 @@ class _ExpenseTileState extends State<ExpenseTile> {
           border: Border.all(color: Colors.blue.shade300),
           gradient: _isSelected ? redGr : whiteGr,
         ),
-        duration: const Duration(milliseconds: 200),
+        duration: Animations.animDur,
         child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 200),
+          duration: Animations.animDur,
           child: _isSelected
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: onTapDeselect,
+                      onTap: _onTapDeselect,
                       child: Padding(
                         padding: const EdgeInsets.only(right: 15),
                         child: Text(Strings.cancel, style: TextStyles.white15),
@@ -59,7 +60,7 @@ class _ExpenseTileState extends State<ExpenseTile> {
                     ),
                     Text(Strings.sep, style: TextStyles.white35),
                     GestureDetector(
-                      onTap: onTapDelete,
+                      onTap: _onTapDelete,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15),
                         child: Text(Strings.delete, style: TextStyles.white15),
@@ -104,7 +105,7 @@ class _ExpenseTileState extends State<ExpenseTile> {
     );
   }
 
-  void onLongPressSelect() {
+  void _onLongPressSelect() {
     if (!_isSelected) {
       setState(() {
         _isSelected = !_isSelected;
@@ -112,7 +113,7 @@ class _ExpenseTileState extends State<ExpenseTile> {
     }
   }
 
-  void onTapDeselect() {
+  void _onTapDeselect() {
     if (_isSelected) {
       setState(() {
         _isSelected = !_isSelected;
@@ -120,8 +121,8 @@ class _ExpenseTileState extends State<ExpenseTile> {
     }
   }
 
-  void onTapDelete() {
-    onTapDeselect();
+  void _onTapDelete() {
+    _onTapDeselect();
     ExpenseList().remove(widget.entry);
   }
 }
