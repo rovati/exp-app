@@ -20,7 +20,7 @@ Moreover, one of the main goals of the app is to have a modern UI achieved throu
 
 ### Currently Under Development
 
-At the moment the development is focused purely on creating a rough design of the various pages.
+The alpha version includes basic features for adding and removing entries to a single centralized list. Moving on to a beta version the goal is to include the system to create multiple lists and set budgets for each of them.
 
 ## License
 
