@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:exp/model/expense_list.dart';
 import 'package:exp/model/list_info.dart';
+import 'package:exp/util/constant/animations.dart';
 import 'package:exp/util/constant/strings.dart';
 import 'package:exp/util/constant/text_styles.dart';
 import 'package:exp/widget/expense_list_body.dart';
@@ -24,7 +25,6 @@ class ExpenseScreen extends StatefulWidget {
 }
 
 class _ExpenseScreenState extends State<ExpenseScreen> {
-  final _animationDuration = 200;
   late double _dialogOpacity;
   late double _blurIntensity;
   late bool _isDialogVisible;
@@ -94,7 +94,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     child: Consumer<ExpenseList>(
                       builder: (context, expenselist, child) =>
                           AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 200),
+                              duration: Animations.animDur,
                               child: expenselist.loaded
                                   ? ExpenseListBody(expenselist)
                                   : const LoadingIndicator()),
@@ -106,7 +106,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           ),
           AnimatedOpacity(
             opacity: _blurIntensity,
-            duration: Duration(milliseconds: _animationDuration),
+            duration: Animations.animDur,
             child: BackdropFilter(
               filter: ImageFilter.blur(
                 sigmaX: 8.0,
@@ -116,7 +116,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 visible: _isDialogVisible,
                 child: AnimatedOpacity(
                   opacity: _dialogOpacity,
-                  duration: Duration(milliseconds: _animationDuration ~/ 2),
+                  duration: Animations.animHalfDur,
                   child: Center(
                     child: NewEntryDialog(fadeoutCallback: _onTapCloseDialog),
                   ),
@@ -142,7 +142,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       _dialogOpacity = 0.0;
       _blurIntensity = 0.0;
     });
-    Future.delayed(Duration(milliseconds: _animationDuration), () {
+    Future.delayed(Animations.animDur, () {
       setState(() {
         _isDialogVisible = false;
       });

@@ -1,11 +1,14 @@
 import 'dart:ui';
 
 import 'package:exp/model/home_list.dart';
+import 'package:exp/util/constant/animations.dart';
 import 'package:exp/util/constant/text_styles.dart';
 import 'package:exp/widget/home_list_body.dart';
 import 'package:exp/widget/home_list_header.dart';
+import 'package:exp/widget/loading_indicator.dart';
 import 'package:exp/widget/new_list_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 /// Home page showing the various lists and a summary of all expense amounts.
 class HomeScreen extends StatefulWidget {
@@ -17,7 +20,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _animationDuration = 200;
   late double _dialogOpacity;
   late double _blurIntensity;
   late bool _isDialogVisible;
@@ -82,8 +84,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  const Expanded(
-                    child: HomeListBody(),
+                  Expanded(
+                    child: Consumer<HomeList>(
+                      builder: (context, homelist, child) => AnimatedSwitcher(
+                          duration: Animations.animDur,
+                          child: homelist.loaded
+                              ? const HomeListBody()
+                              : const LoadingIndicator()),
+                    ),
                   ),
                 ],
               ),
@@ -91,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           AnimatedOpacity(
             opacity: _blurIntensity,
-            duration: Duration(milliseconds: _animationDuration),
+            duration: Animations.animDur,
             child: BackdropFilter(
               filter: ImageFilter.blur(
                 sigmaX: 8.0,
@@ -101,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 visible: _isDialogVisible,
                 child: AnimatedOpacity(
                   opacity: _dialogOpacity,
-                  duration: Duration(milliseconds: _animationDuration ~/ 2),
+                  duration: Animations.animHalfDur,
                   child: Center(
                     child: NewListDialog(fadeoutCallback: _onTapCloseDialog),
                   ),
@@ -127,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _dialogOpacity = 0.0;
       _blurIntensity = 0.0;
     });
-    Future.delayed(Duration(milliseconds: _animationDuration), () {
+    Future.delayed(Animations.animDur, () {
       setState(() {
         _isDialogVisible = false;
       });

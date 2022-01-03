@@ -27,4 +27,11 @@ class TextStyles {
       TextStyle(color: Colors.blue.shade300, fontSize: 20);
   static TextStyle lBlue30 =
       TextStyle(color: Colors.blue.shade300, fontSize: 30);
+
+  static TextStyle red15 = const TextStyle(color: Colors.red, fontSize: 15);
+  static TextStyle red20 = const TextStyle(color: Colors.red, fontSize: 20);
+  static TextStyle red25 = const TextStyle(color: Colors.red, fontSize: 25);
+  static TextStyle red32 = const TextStyle(color: Colors.red, fontSize: 32);
+
+  static TextStyle lRed20 = TextStyle(color: Colors.red.shade200, fontSize: 20);
 }

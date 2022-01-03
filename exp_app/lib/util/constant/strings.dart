@@ -41,4 +41,7 @@ class Strings {
   /* EXPENSE ENTRY */
   static String expEntryDefTitle = 'expense';
   static String expEntryDefAmount = '0.00';
+
+  /* INFO TILE */
+  static String infoThisMonth = 'THIS MONTH: ';
 }
