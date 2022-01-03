@@ -39,6 +39,9 @@ class Strings {
   static String nedTitle = 'TITLE';
   static String nedAmount = 'AMOUNT';
 
+  /* NEW LIST DIALOG */
+  static String nldName = 'NEW LIST';
+
   /* EXPENSE ENTRY */
   static String expEntryDefTitle = 'expense';
   static String expEntryDefAmount = '0.00';

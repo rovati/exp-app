@@ -33,7 +33,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   void initState() {
     super.initState();
     // REVIEW modify to take id from home screen push
-    ExpenseList().load(widget.info.id);
+    ExpenseList().load(widget.info.id, widget.info.name);
     _dialogOpacity = 0.0;
     _blurIntensity = 0.0;
     _isDialogVisible = false;

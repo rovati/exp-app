@@ -6,9 +6,7 @@ class ListInfo {
   double total;
   double monthTotal;
 
-  ListInfo(this.name, this.id)
-      : total = 0,
-        monthTotal = 0;
+  ListInfo(this.name, this.id, {this.total = 0, this.monthTotal = 0});
 
   ListInfo.fromJson(Map<String, dynamic> json)
       : name = json[JSONKeys.listInfoName],

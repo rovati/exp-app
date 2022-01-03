@@ -43,6 +43,15 @@ class HomeList extends ChangeNotifier {
     notifyListeners();
   }
 
+  void modify(ListInfo info) {
+    if (lists.contains(info)) {
+      final old = lists[lists.indexOf(info)];
+      total -= old.total;
+      lists.remove(old);
+    }
+    add(info);
+  }
+
   /// Removes the element from the list. Notifies Listeners.
   void remove(ListInfo info) {
     final res = lists.remove(info);
@@ -80,11 +89,6 @@ class HomeList extends ChangeNotifier {
   /// that case, it removes the old element before adding the new one, and
   /// updates the total accordingly.
   void _silentAdd(ListInfo info) {
-    if (lists.contains(info)) {
-      final old = lists[lists.indexOf(info)];
-      total -= old.total;
-      lists.remove(old);
-    }
     lists.add(info);
     total += info.total;
     DBHelper.writeHomeList(false);

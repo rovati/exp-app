@@ -105,7 +105,8 @@ class NewListDialogState extends State<NewListDialog> {
   }
 
   void _onTapCreateNewList() async {
-    HomeList().add(ListInfo(_contrTitle.text, await IDProvider.getNextId()));
+    final name = _contrTitle.text.isEmpty ? Strings.nldName : _contrTitle.text;
+    HomeList().add(ListInfo(name, await IDProvider.getNextId()));
     widget.fadeoutCallback();
   }
 }

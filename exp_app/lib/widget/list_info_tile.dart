@@ -78,7 +78,8 @@ class _ListInfoTileState extends State<ListInfoTile> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(widget.info.name, style: TextStyles.white20),
+                          Text(widget.info.name.toUpperCase(),
+                              style: TextStyles.white20),
                           Text(
                               Strings.infoThisMonth +
                                   widget.info.monthTotal.toStringAsFixed(2),

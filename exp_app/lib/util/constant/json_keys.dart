@@ -6,6 +6,7 @@ class JSONKeys {
 
   /* ExpenseList */
   static String expListID = 'id';
+  static String expListName = 'name';
   static String expListEntries = 'entries';
 
   /* HomeList */

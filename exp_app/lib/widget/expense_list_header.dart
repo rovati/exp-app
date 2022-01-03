@@ -23,7 +23,8 @@ class ExpenseListHeader extends StatelessWidget {
               Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: Text(listName, style: TextStyles.white20B),
+                  child:
+                      Text(listName.toUpperCase(), style: TextStyles.white20B),
                 ),
               ),
               Align(
