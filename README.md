@@ -31,10 +31,14 @@ The app is released under the [GNU General Public License v3.0](LICENSE).
 Want to contirbute to the development of the app? Whether you want to share ideas, give comments or write code, hit [Rova](https://github.com/rovati) up to get involved! Your help is greatly appreciated!
 
 ## Screenshots
-### Images of alpha version 0.2.1
+### Images of alpha version 0.3
 <p align="center">
-  <img src="https://github.com/rovati/exp-app/blob/main/screenshots/0.2.1/home_screen_0.2.1.jpg" width="200" title="Home Page">
+  <img src="https://github.com/rovati/exp-app/blob/main/screenshots/0.3/home_screen_0.3.png" width="200" title="Home Page">
   <img src="https://github.com/rovati/exp-app/blob/main/screenshots/0.2.1/new_list_dialog_0.2.1.jpg" width="200" title="Dialog for new list creation">
-  <img src="https://github.com/rovati/exp-app/blob/main/screenshots/0.2.1/expense_screen_0.2.1.jpg" width="200" title="Expense List Page">
-  <img src="https://github.com/rovati/exp-app/blob/main/screenshots/0.2.1/new_entry_dialog_0.2.1.jpg" width="200" title="Dialog for new expense creation">
+  <img src="https://github.com/rovati/exp-app/blob/main/screenshots/0.3/home_summary_0.3.png" width="200" title="Expenses Summary on Home Page">
+</p>
+<p align="center">
+  <img src="https://github.com/rovati/exp-app/blob/main/screenshots/0.3/expense_screen_0.3.png" width="200" title="Expense List Page">
+  <img src="https://github.com/rovati/exp-app/blob/main/screenshots/0.2.1/new_entry_dialog_0.2.1.jpg" width="200" title="Dialog for expense creation">
+  <img src="https://github.com/rovati/exp-app/blob/main/screenshots/0.3/expense_summary_o.3.png" width="200" title="Expenses Summary on Expense Page">
 </p>
