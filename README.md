@@ -24,7 +24,7 @@ The alpha version includes basic features for creating various expense lists, an
 
 ## License
 
-The app is realease under the [GNU General Public License v3.0](LICENSE).
+The app is released under the [GNU General Public License v3.0](LICENSE).
 
 ## Contributions
 
