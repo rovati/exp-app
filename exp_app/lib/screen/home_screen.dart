@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:exp/model/expense_summary.dart';
 import 'package:exp/model/home_list.dart';
 import 'package:exp/util/constant/animations.dart';
 import 'package:exp/util/constant/text_styles.dart';
@@ -28,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     HomeList().load();
+    ExpenseSummary().init();
     _dialogOpacity = 0.0;
     _blurIntensity = 0.0;
     _isDialogVisible = false;

@@ -1,4 +1,5 @@
 import 'package:exp/model/date_key.dart';
+import 'package:exp/model/date_to_amount.dart';
 import 'package:exp/util/constant/json_keys.dart';
 import 'package:exp/util/db_helper.dart';
 import 'package:flutter/material.dart';
@@ -29,10 +30,11 @@ class ExpenseSummary extends ChangeNotifier {
     for (Map<String, dynamic> listMap in res) {
       if (listMap.containsKey(JSONKeys.expListID) &&
           listMap.containsKey(JSONKeys.expListEntries)) {
-        elaborated[listMap[JSONKeys.expListID]] =
-            listMap[JSONKeys.expListEntries]
-                .map((e) => ExpenseEntry.fromJson(e))
-                .toList();
+        List<ExpenseEntry> entries = [];
+        for (var entry in listMap[JSONKeys.expListEntries]) {
+          entries.add(ExpenseEntry.fromJson(entry));
+        }
+        elaborated[listMap[JSONKeys.expListID]] = entries;
       }
     }
     for (int listID in elaborated.keys) {
@@ -81,15 +83,14 @@ class ExpenseSummary extends ChangeNotifier {
   /// month from the oldest date with an expense up to the current month.
   /// NOTE fills with 0 where there was no registered expenses for the given
   /// list.
-  List<double> listAmount(int listID) {
+  List<DateToAmount> listAmount(int listID) {
     DateKey currentDateKey = DateKey(DateTime.now().year, DateTime.now().month);
-    List<double> res = [];
-    while (_oldestDate.isPriorTo(currentDateKey)) {
-      if (!_amounts.containsKey(currentDateKey) ||
-          !_amounts[currentDateKey]!.containsKey(listID)) {
-        res.add(0);
-      } else {
-        res.add(_amounts[currentDateKey]![listID]!);
+    List<DateToAmount> res = [];
+    while (!currentDateKey.isPriorTo(_oldestDate)) {
+      if (_amounts.containsKey(currentDateKey) &&
+          _amounts[currentDateKey]!.containsKey(listID)) {
+        res.add(
+            DateToAmount(currentDateKey, _amounts[currentDateKey]![listID]!));
       }
       currentDateKey = currentDateKey.prev();
     }

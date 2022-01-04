@@ -12,7 +12,9 @@ import 'package:provider/provider.dart';
 /// entries of the current month.
 class ExpenseListHeader extends StatelessWidget {
   final String listName;
-  const ExpenseListHeader(this.listName, {Key? key}) : super(key: key);
+  final void Function() summaryCallback;
+  const ExpenseListHeader(this.listName, this.summaryCallback, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -45,21 +47,28 @@ class ExpenseListHeader extends StatelessWidget {
               )
             ],
           ),
-          Text(Strings.total, style: TextStyles.white20),
-          Consumer<ExpenseList>(
-            builder: (context, expenselist, child) => Text(
-                expenselist.total.toStringAsFixed(2),
-                style: TextStyles.white60),
+          GestureDetector(
+            onTap: summaryCallback,
+            child: Column(
+              children: [
+                Text(Strings.total, style: TextStyles.white20),
+                Consumer<ExpenseList>(
+                  builder: (context, expenselist, child) => Text(
+                      expenselist.total.toStringAsFixed(2),
+                      style: TextStyles.white60),
+                ),
+                Consumer<ExpenseList>(
+                  builder: (context, expenselist, child) => Text(
+                      expenselist
+                          .totalFor(DateKey(
+                              DateTime.now().year, DateTime.now().month))
+                          .toStringAsFixed(2),
+                      style: TextStyles.white35),
+                ),
+                Text(Strings.thisMonth, style: TextStyles.white),
+              ],
+            ),
           ),
-          Consumer<ExpenseList>(
-            builder: (context, expenselist, child) => Text(
-                expenselist
-                    .totalFor(
-                        DateKey(DateTime.now().year, DateTime.now().month))
-                    .toStringAsFixed(2),
-                style: TextStyles.white35),
-          ),
-          Text(Strings.thisMonth, style: TextStyles.white),
         ],
       );
 }

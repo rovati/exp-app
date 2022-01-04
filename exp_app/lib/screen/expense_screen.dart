@@ -7,6 +7,7 @@ import 'package:exp/util/constant/strings.dart';
 import 'package:exp/util/constant/text_styles.dart';
 import 'package:exp/widget/expense_list_body.dart';
 import 'package:exp/widget/expense_list_header.dart';
+import 'package:exp/widget/expense_summary_list.dart';
 import 'package:exp/widget/loading_indicator.dart';
 import 'package:exp/widget/new_entry_dialog.dart';
 import 'package:flutter/material.dart';
@@ -28,15 +29,18 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   late double _dialogOpacity;
   late double _blurIntensity;
   late bool _isDialogVisible;
+  late bool _showSummary;
 
   @override
   void initState() {
     super.initState();
     // REVIEW modify to take id from home screen push
     ExpenseList().load(widget.info.id, widget.info.name);
+
     _dialogOpacity = 0.0;
     _blurIntensity = 0.0;
     _isDialogVisible = false;
+    _showSummary = false;
   }
 
   @override
@@ -68,7 +72,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     ),
                     child: Column(
                       children: [
-                        ExpenseListHeader(widget.info.name),
+                        ExpenseListHeader(widget.info.name, _toggleSummary),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: InkWell(
@@ -91,13 +95,18 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     ),
                   ),
                   Expanded(
-                    child: Consumer<ExpenseList>(
-                      builder: (context, expenselist, child) =>
-                          AnimatedSwitcher(
-                              duration: Animations.animDur,
-                              child: expenselist.loaded
-                                  ? ExpenseListBody(expenselist)
-                                  : const LoadingIndicator()),
+                    child: AnimatedSwitcher(
+                      duration: Animations.animDur,
+                      child: _showSummary
+                          ? ExpSummaryList(widget.info.id)
+                          : Consumer<ExpenseList>(
+                              builder: (context, expenselist, child) =>
+                                  AnimatedSwitcher(
+                                      duration: Animations.animDur,
+                                      child: expenselist.loaded
+                                          ? ExpenseListBody(expenselist)
+                                          : const LoadingIndicator()),
+                            ),
                     ),
                   ),
                 ],
@@ -146,6 +155,12 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       setState(() {
         _isDialogVisible = false;
       });
+    });
+  }
+
+  void _toggleSummary() {
+    setState(() {
+      _showSummary = !_showSummary;
     });
   }
 }
