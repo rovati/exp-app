@@ -39,9 +39,16 @@ class DBHelper {
     }
   }
 
-  // TODO retrieve all expense lists
   static Future<List<Map<String, dynamic>>> getExpenseLists() async {
-    throw UnimplementedError();
+    await _createDirs();
+    List<Map<String, dynamic>> res = [];
+    final Directory dir = Directory(await PathOrLink.listsDirectory);
+    await for (var entity in dir.list()) {
+      if (entity is File) {
+        res.add(jsonDecode(entity.readAsStringSync()));
+      }
+    }
+    return res;
   }
 
   /// Writes the given list to a local file.

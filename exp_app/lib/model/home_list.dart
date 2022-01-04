@@ -2,7 +2,6 @@ import 'package:exp/util/constant/json_keys.dart';
 import 'package:exp/util/db_helper.dart';
 import 'package:flutter/material.dart';
 
-import 'date_key.dart';
 import 'list_info.dart';
 
 /// Model for the list of the expense lists, used in the home page.
@@ -72,13 +71,6 @@ class HomeList extends ChangeNotifier {
       partial += info.monthTotal;
     }
     return partial;
-  }
-
-  // TODO
-  // REVIEW requires design review to have access to expense lists!
-  /// Returns the amount of all lists expenses for the given year-month.
-  double totalFor(DateKey month) {
-    throw UnimplementedError();
   }
 
   Map<String, dynamic> toJson() {
