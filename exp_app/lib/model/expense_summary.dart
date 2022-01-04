@@ -1,8 +1,11 @@
 import 'package:exp/model/date_key.dart';
+import 'package:exp/util/constant/json_keys.dart';
+import 'package:exp/util/db_helper.dart';
 import 'package:flutter/material.dart';
 
 import 'expense_entry.dart';
 
+/// Model for keeping track of expense amounts for the various months.
 class ExpenseSummary extends ChangeNotifier {
   static final ExpenseSummary _summary = ExpenseSummary._internal();
 
@@ -16,14 +19,28 @@ class ExpenseSummary extends ChangeNotifier {
       : _amounts = {},
         _oldestDate = DateKey(DateTime.now().year, DateTime.now().month);
 
-  // TODO
-  void init() {
+  /// Initializes internal values with all entires of all lists.
+  void init() async {
     _amounts.clear();
     _oldestDate = DateKey(DateTime.now().year, DateTime.now().month);
-    throw UnimplementedError();
-    // receive json {id -> {expenselist data}} from dbhelper
-    // generate map {id -> list[expenseentry]}
-    // silentadd all entries
+    List<Map<String, dynamic>> res = await DBHelper.getExpenseLists();
+    Map<int, List<ExpenseEntry>> elaborated = {};
+    // Convert expense lists raw data into a map {listID -> expenses of the list}
+    for (Map<String, dynamic> listMap in res) {
+      if (listMap.containsKey(JSONKeys.expListID) &&
+          listMap.containsKey(JSONKeys.expListEntries)) {
+        elaborated[listMap[JSONKeys.expListID]] =
+            listMap[JSONKeys.expListEntries]
+                .map((e) => ExpenseEntry.fromJson(e))
+                .toList();
+      }
+    }
+    for (int listID in elaborated.keys) {
+      for (ExpenseEntry entry in elaborated[listID]!) {
+        _silentAdd(listID, entry);
+      }
+    }
+    notifyListeners();
   }
 
   void addEntry(int listID, ExpenseEntry entry) {
@@ -37,11 +54,14 @@ class ExpenseSummary extends ChangeNotifier {
     if (_amounts.containsKey(key) && _amounts[key]!.containsKey(listID)) {
       _amounts[key]![listID] = _amounts[key]![listID]! - amount;
     }
+    notifyListeners();
   }
 
-  // TODO
   void removeList(int listID) {
-    throw UnimplementedError();
+    for (DateKey k in _amounts.keys) {
+      _amounts[k]!.remove(listID);
+    }
+    notifyListeners();
   }
 
   /// Returns a list of each month total expense with one entry each month from
@@ -74,18 +94,6 @@ class ExpenseSummary extends ChangeNotifier {
       currentDateKey = currentDateKey.prev();
     }
     return res;
-  }
-
-  // TODO
-  /// Returns the total expense for the given year-month.
-  double amountFor(DateKey key) {
-    throw UnimplementedError();
-  }
-
-  // TODO
-  /// Returns the expense of the given list for the given year-month.
-  double listAmountFor(int listID, DateKey key) {
-    throw UnimplementedError();
   }
 
   void _silentAdd(int listID, ExpenseEntry entry) {

@@ -39,6 +39,11 @@ class DBHelper {
     }
   }
 
+  // TODO retrieve all expense lists
+  static Future<List<Map<String, dynamic>>> getExpenseLists() async {
+    throw UnimplementedError();
+  }
+
   /// Writes the given list to a local file.
   static void writeExpenseList() async {
     await _createDirs();
