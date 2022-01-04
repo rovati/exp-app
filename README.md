@@ -20,7 +20,7 @@ Moreover, one of the main goals of the app is to have a modern UI achieved throu
 
 ### Currently Under Development
 
-The alpha version includes basic features for creating various expense lists, and adding and removing entries to each list. Moreover, you can access a summery of expenses amounts for each month. After adding a basic budget system the app will move to beta version, where deep testing and a reworked UI will be the last main things to do before releasing the first full version of the app.
+The alpha version includes basic features for creating various expense lists, and adding and removing entries to each list. You can also access a summary of expenses amounts for each month. After adding a basic budget system the app will move to beta version, where deep testing and a reworked UI will be the last main things to do before releasing the first full version of the app.
 
 ## License
 
