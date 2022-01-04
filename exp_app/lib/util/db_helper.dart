@@ -12,7 +12,6 @@ import 'constant/paths_and_links.dart';
 import 'constant/strings.dart';
 
 /// Utility class for reading from and writing to local files.
-/// NOTE for the moment only supports reading and writing expense lists.
 class DBHelper {
   /* EXPOSED API */
 
@@ -38,6 +37,18 @@ class DBHelper {
     } else {
       return _buildInfoList(jsonDecode(file.readAsStringSync()));
     }
+  }
+
+  static Future<List<Map<String, dynamic>>> getExpenseLists() async {
+    await _createDirs();
+    List<Map<String, dynamic>> res = [];
+    final Directory dir = Directory(await PathOrLink.listsDirectory);
+    await for (var entity in dir.list()) {
+      if (entity is File) {
+        res.add(jsonDecode(entity.readAsStringSync()));
+      }
+    }
+    return res;
   }
 
   /// Writes the given list to a local file.

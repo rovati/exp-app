@@ -1,5 +1,6 @@
 import 'package:path_provider/path_provider.dart';
 
+/// Strings for paths and links.
 class PathOrLink {
   /* URLs */
   static String bugReportLink = 'https://github.com/rovati/exp-app/issues';

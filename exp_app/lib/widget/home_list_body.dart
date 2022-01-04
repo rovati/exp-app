@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 
 import 'list_info_tile.dart';
 
+/// Body of the Home Page, it shows the list of the expense lists or an
+/// informative message if the list is empty.
 class HomeListBody extends StatelessWidget {
   const HomeListBody({Key? key}) : super(key: key);
 

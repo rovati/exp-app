@@ -1,3 +1,4 @@
+import 'package:exp/model/expense_summary.dart';
 import 'package:exp/util/constant/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +13,7 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (_) => ExpenseList()),
       ChangeNotifierProvider(create: (_) => HomeList()),
+      ChangeNotifierProvider(create: (_) => ExpenseSummary()),
     ],
     child: const MyApp(),
   ));

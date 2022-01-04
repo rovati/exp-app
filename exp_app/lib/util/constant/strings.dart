@@ -1,5 +1,6 @@
 import 'package:package_info/package_info.dart';
 
+/// Text data for the various pages.
 class Strings {
   static String helloWorld = 'Hello World!';
 

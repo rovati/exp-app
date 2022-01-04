@@ -11,8 +11,10 @@ import 'package:provider/provider.dart';
 /// It shows the cumulative amount of the entries, and the partial amount for
 /// entries of the current month.
 class ExpenseListHeader extends StatelessWidget {
-  final String listName;
-  const ExpenseListHeader(this.listName, {Key? key}) : super(key: key);
+  final String _listName;
+  final void Function() _summaryCallback;
+  const ExpenseListHeader(this._listName, this._summaryCallback, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -24,7 +26,7 @@ class ExpenseListHeader extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   child:
-                      Text(listName.toUpperCase(), style: TextStyles.white20B),
+                      Text(_listName.toUpperCase(), style: TextStyles.white20B),
                 ),
               ),
               Align(
@@ -45,31 +47,28 @@ class ExpenseListHeader extends StatelessWidget {
               )
             ],
           ),
-          Text(Strings.total, style: TextStyles.white20),
-          Consumer<ExpenseList>(
-            builder: (context, expenselist, child) => Text(
-                expenselist.total.toStringAsFixed(2),
-                style: TextStyles.white60),
-          ),
-          Consumer<ExpenseList>(
-            builder: (context, expenselist, child) => Text(
-                expenselist
-                    .totalFor(
-                        DateKey(DateTime.now().year, DateTime.now().month))
-                    .toStringAsFixed(2),
-                style: TextStyles.white35),
-          ),
-          Text(Strings.thisMonth, style: TextStyles.white),
-          /* const SizedBox(height: 10),
-          // REVIEW remove for alpha
-          Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: LinearProgressIndicator(
-              value: 194.10 / 200,
-              backgroundColor: Colors.white,
-              color: Colors.green.shade200,
+          GestureDetector(
+            onTap: _summaryCallback,
+            child: Column(
+              children: [
+                Text(Strings.total, style: TextStyles.white20),
+                Consumer<ExpenseList>(
+                  builder: (context, expenselist, child) => Text(
+                      expenselist.total.toStringAsFixed(2),
+                      style: TextStyles.white60),
+                ),
+                Consumer<ExpenseList>(
+                  builder: (context, expenselist, child) => Text(
+                      expenselist
+                          .totalFor(DateKey(
+                              DateTime.now().year, DateTime.now().month))
+                          .toStringAsFixed(2),
+                      style: TextStyles.white35),
+                ),
+                Text(Strings.thisMonth, style: TextStyles.white),
+              ],
             ),
-          ), */
+          ),
         ],
       );
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Text styles for the various Text widgets.
 class TextStyles {
   static TextStyle white = const TextStyle(color: Colors.white);
   static TextStyle white15 = const TextStyle(color: Colors.white, fontSize: 15);
