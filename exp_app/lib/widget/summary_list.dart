@@ -1,23 +1,23 @@
-import 'package:exp/model/date_key.dart';
 import 'package:exp/model/date_to_amount.dart';
 import 'package:exp/model/expense_summary.dart';
 import 'package:exp/util/constant/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ExpSummaryList extends StatelessWidget {
+class SummaryList extends StatelessWidget {
   final int listID;
 
-  final topPadding = const EdgeInsets.only(top: 20, bottom: 10);
-  final normalPadding = const EdgeInsets.symmetric(vertical: 10);
-  final bottomPadding = const EdgeInsets.only(top: 10, bottom: 20);
+  final _topPadding = const EdgeInsets.only(top: 20, bottom: 10);
+  final _normalPadding = const EdgeInsets.symmetric(vertical: 10);
+  final _bottomPadding = const EdgeInsets.only(top: 10, bottom: 20);
 
-  const ExpSummaryList(this.listID, {Key? key}) : super(key: key);
+  const SummaryList({this.listID = -1, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Consumer<ExpenseSummary>(builder: (context, summary, child) {
-      List<DateToAmount> amounts = summary.listAmount(listID);
+      List<DateToAmount> amounts =
+          listID == -1 ? summary.amount() : summary.listAmount(listID);
       return Padding(
         padding: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width * 0.1,
@@ -27,10 +27,10 @@ class ExpSummaryList extends StatelessWidget {
           itemCount: amounts.length,
           itemBuilder: (context, index) => Padding(
             padding: index == 0
-                ? topPadding
+                ? _topPadding
                 : index == amounts.length - 1
-                    ? bottomPadding
-                    : normalPadding,
+                    ? _bottomPadding
+                    : _normalPadding,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

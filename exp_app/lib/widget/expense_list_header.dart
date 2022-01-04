@@ -11,9 +11,9 @@ import 'package:provider/provider.dart';
 /// It shows the cumulative amount of the entries, and the partial amount for
 /// entries of the current month.
 class ExpenseListHeader extends StatelessWidget {
-  final String listName;
-  final void Function() summaryCallback;
-  const ExpenseListHeader(this.listName, this.summaryCallback, {Key? key})
+  final String _listName;
+  final void Function() _summaryCallback;
+  const ExpenseListHeader(this._listName, this._summaryCallback, {Key? key})
       : super(key: key);
 
   @override
@@ -26,7 +26,7 @@ class ExpenseListHeader extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   child:
-                      Text(listName.toUpperCase(), style: TextStyles.white20B),
+                      Text(_listName.toUpperCase(), style: TextStyles.white20B),
                 ),
               ),
               Align(
@@ -48,7 +48,7 @@ class ExpenseListHeader extends StatelessWidget {
             ],
           ),
           GestureDetector(
-            onTap: summaryCallback,
+            onTap: _summaryCallback,
             child: Column(
               children: [
                 Text(Strings.total, style: TextStyles.white20),

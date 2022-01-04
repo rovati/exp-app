@@ -9,7 +9,9 @@ import 'package:provider/provider.dart';
 /// Header for the Home page. It shows the total amount of all the lists, and
 /// the amount of the current month of all the lists.
 class HomeListHeader extends StatelessWidget {
-  const HomeListHeader({Key? key}) : super(key: key);
+  final void Function() _summaryCallback;
+
+  const HomeListHeader(this._summaryCallback, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -41,28 +43,24 @@ class HomeListHeader extends StatelessWidget {
               )
             ],
           ),
-          Text(Strings.total, style: TextStyles.white20),
-          Consumer<HomeList>(
-            builder: (context, homelist, child) => Text(
-                homelist.total.toStringAsFixed(2),
-                style: TextStyles.white60),
-          ),
-          Consumer<HomeList>(
-            builder: (context, expenselist, child) => Text(
-                expenselist.thisMonthTotal.toStringAsFixed(2),
-                style: TextStyles.white35),
-          ),
-          Text(Strings.thisMonth, style: TextStyles.white),
-          /* const SizedBox(height: 10),
-          // REVIEW remove for alpha
-          Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: LinearProgressIndicator(
-              value: 194.10 / 200,
-              backgroundColor: Colors.white,
-              color: Colors.green.shade200,
-            ),
-          ), */
+          GestureDetector(
+              onTap: _summaryCallback,
+              child: Column(
+                children: [
+                  Text(Strings.total, style: TextStyles.white20),
+                  Consumer<HomeList>(
+                    builder: (context, homelist, child) => Text(
+                        homelist.total.toStringAsFixed(2),
+                        style: TextStyles.white60),
+                  ),
+                  Consumer<HomeList>(
+                    builder: (context, expenselist, child) => Text(
+                        expenselist.thisMonthTotal.toStringAsFixed(2),
+                        style: TextStyles.white35),
+                  ),
+                  Text(Strings.thisMonth, style: TextStyles.white),
+                ],
+              )),
         ],
       );
 }

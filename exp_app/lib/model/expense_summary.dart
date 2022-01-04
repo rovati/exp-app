@@ -69,11 +69,13 @@ class ExpenseSummary extends ChangeNotifier {
   /// Returns a list of each month total expense with one entry each month from
   /// the current month down to oldest date with an expense.
   /// NOTE fills with 0 where there was no registered expenses.
-  List<double> amount() {
+  List<DateToAmount> amount() {
     DateKey currentDateKey = DateKey(DateTime.now().year, DateTime.now().month);
-    List<double> res = [];
-    while (_oldestDate.isPriorTo(currentDateKey)) {
-      res.add(_monthAmount(currentDateKey));
+    List<DateToAmount> res = [];
+    while (!currentDateKey.isPriorTo(_oldestDate)) {
+      if (_amounts.containsKey(currentDateKey)) {
+        res.add(_monthAmount(currentDateKey));
+      }
       currentDateKey = currentDateKey.prev();
     }
     return res;
@@ -111,15 +113,11 @@ class ExpenseSummary extends ChangeNotifier {
   }
 
   /// Accumulates the amounts of the various lits for a given date key.
-  double _monthAmount(DateKey key) {
+  DateToAmount _monthAmount(DateKey key) {
     double monthTot = 0;
-    if (!_amounts.containsKey(key)) {
-      return 0;
-    } else {
-      for (int id in _amounts[key]!.keys) {
-        monthTot += _amounts[key]![id]!;
-      }
-      return monthTot;
+    for (int id in _amounts[key]!.keys) {
+      monthTot += _amounts[key]![id]!;
     }
+    return DateToAmount(key, monthTot);
   }
 }

@@ -7,7 +7,7 @@ import 'package:exp/util/constant/strings.dart';
 import 'package:exp/util/constant/text_styles.dart';
 import 'package:exp/widget/expense_list_body.dart';
 import 'package:exp/widget/expense_list_header.dart';
-import 'package:exp/widget/expense_summary_list.dart';
+import 'package:exp/widget/summary_list.dart';
 import 'package:exp/widget/loading_indicator.dart';
 import 'package:exp/widget/new_entry_dialog.dart';
 import 'package:flutter/material.dart';
@@ -34,9 +34,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   @override
   void initState() {
     super.initState();
-    // REVIEW modify to take id from home screen push
     ExpenseList().load(widget.info.id, widget.info.name);
-
     _dialogOpacity = 0.0;
     _blurIntensity = 0.0;
     _isDialogVisible = false;
@@ -98,7 +96,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     child: AnimatedSwitcher(
                       duration: Animations.animDur,
                       child: _showSummary
-                          ? ExpSummaryList(widget.info.id)
+                          ? SummaryList(listID: widget.info.id)
                           : Consumer<ExpenseList>(
                               builder: (context, expenselist, child) =>
                                   AnimatedSwitcher(

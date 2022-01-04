@@ -8,6 +8,7 @@ import 'package:exp/widget/home_list_body.dart';
 import 'package:exp/widget/home_list_header.dart';
 import 'package:exp/widget/loading_indicator.dart';
 import 'package:exp/widget/new_list_dialog.dart';
+import 'package:exp/widget/summary_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late double _dialogOpacity;
   late double _blurIntensity;
   late bool _isDialogVisible;
+  late bool _showSummary;
 
   @override
   void initState() {
@@ -33,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _dialogOpacity = 0.0;
     _blurIntensity = 0.0;
     _isDialogVisible = false;
+    _showSummary = false;
   }
 
   @override
@@ -64,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Column(
                       children: [
-                        const HomeListHeader(),
+                        HomeListHeader(_toggleSummary),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: InkWell(
@@ -87,12 +90,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Expanded(
-                    child: Consumer<HomeList>(
-                      builder: (context, homelist, child) => AnimatedSwitcher(
-                          duration: Animations.animDur,
-                          child: homelist.loaded
-                              ? const HomeListBody()
-                              : const LoadingIndicator()),
+                    child: AnimatedSwitcher(
+                      duration: Animations.animDur,
+                      child: _showSummary
+                          ? SummaryList()
+                          : Consumer<HomeList>(
+                              builder: (context, homelist, child) =>
+                                  AnimatedSwitcher(
+                                      duration: Animations.animDur,
+                                      child: homelist.loaded
+                                          ? const HomeListBody()
+                                          : const LoadingIndicator()),
+                            ),
                     ),
                   ),
                 ],
@@ -141,6 +150,12 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _isDialogVisible = false;
       });
+    });
+  }
+
+  void _toggleSummary() {
+    setState(() {
+      _showSummary = !_showSummary;
     });
   }
 }
